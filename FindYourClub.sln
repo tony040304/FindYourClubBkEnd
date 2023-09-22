@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindYourClub", "FindYourClub\FindYourClub.csproj", "{AE0ABA38-AD7E-42C0-9BC6-7CDB2538BC4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{62503387-975C-4F12-9DC3-01EB6B46BCBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE0ABA38-AD7E-42C0-9BC6-7CDB2538BC4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE0ABA38-AD7E-42C0-9BC6-7CDB2538BC4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE0ABA38-AD7E-42C0-9BC6-7CDB2538BC4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE0ABA38-AD7E-42C0-9BC6-7CDB2538BC4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62503387-975C-4F12-9DC3-01EB6B46BCBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62503387-975C-4F12-9DC3-01EB6B46BCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62503387-975C-4F12-9DC3-01EB6B46BCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62503387-975C-4F12-9DC3-01EB6B46BCBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2487ABB1-4B56-46E8-B038-A2934A7183D9}
+	EndGlobalSection
+EndGlobal
