@@ -9,30 +9,30 @@
    "OutputContextPath": null,
    "OutputPath": "Models",
    "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "Model",
+   "ProjectRootNamespace": "FindYourClub",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 0,
    "SelectedToBeGenerated": 0,
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Equipo]",
+         "Name": "[dbo].[Equipos]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Jugador]",
+         "Name": "[dbo].[JugadorEquipos]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[JugadorEquipo]",
+         "Name": "[dbo].[Jugadores]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Mensaje]",
+         "Name": "[dbo].[Mensajes]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Usuarios]",
+         "Name": "[dbo].[Usuario]",
          "ObjectType": 0
       }
    ],
@@ -41,7 +41,7 @@
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,
-   "UseDbContextSplitting": true,
+   "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,

@@ -11,22 +11,20 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Mensaje> entity)
         {
-            entity.HasKey(e => e.MensajeId).HasName("PK__Mensaje__FEA0557F6741DD7B");
+            entity.HasKey(e => e.MensajeId).HasName("PK__Mensaje__FEA0557FA6CA8BE5");
 
-            entity.Property(e => e.MensajeId)
-            .ValueGeneratedNever()
-            .HasColumnName("MensajeID");
+            entity.Property(e => e.MensajeId).HasColumnName("MensajeID");
             entity.Property(e => e.DestinatarioId).HasColumnName("DestinatarioID");
             entity.Property(e => e.FechaEnvio).HasColumnType("datetime");
             entity.Property(e => e.RemitenteId).HasColumnName("RemitenteID");
 
-            entity.HasOne(d => d.Destinatario).WithMany(p => p.MensajeDestinatario)
+            entity.HasOne(d => d.Destinatario).WithMany(p => p.Mensaje)
             .HasForeignKey(d => d.DestinatarioId)
-            .HasConstraintName("FK__Mensaje__Destina__403A8C7D");
+            .HasConstraintName("FK__Mensaje__Destina__5EBF139D");
 
-            entity.HasOne(d => d.Remitente).WithMany(p => p.MensajeRemitente)
+            entity.HasOne(d => d.Remitente).WithMany(p => p.Mensaje)
             .HasForeignKey(d => d.RemitenteId)
-            .HasConstraintName("FK__Mensaje__Remiten__3F466844");
+            .HasConstraintName("FK__Mensaje__Remiten__5DCAEF64");
 
             OnConfigurePartial(entity);
         }

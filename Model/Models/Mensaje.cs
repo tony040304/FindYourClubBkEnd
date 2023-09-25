@@ -17,7 +17,7 @@ public partial class Mensaje
 
     public DateTime? FechaEnvio { get; set; }
 
-    public virtual Jugador Destinatario { get; set; }
+    public virtual Equipo Destinatario { get; set; }
 
     public virtual Jugador Remitente { get; set; }
 }

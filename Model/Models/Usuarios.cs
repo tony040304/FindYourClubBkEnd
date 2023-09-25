@@ -5,19 +5,17 @@ using System.Collections.Generic;
 
 namespace Model.Models;
 
-public partial class Equipo
+public partial class Usuarios
 {
-    public int EquipoId { get; set; }
-
-    public int? UsuarioId { get; set; }
+    public int UsuarioId { get; set; }
 
     public string Nombre { get; set; }
 
-    public string Descripcion { get; set; }
+    public string Contrasenia { get; set; }
 
-    public virtual ICollection<Mensaje> Mensaje { get; set; } = new List<Mensaje>();
+    public int? Rol { get; set; }
 
-    public virtual Usuarios Usuario { get; set; }
+    public virtual ICollection<Equipo> Equipo { get; set; } = new List<Equipo>();
 
     public virtual ICollection<Jugador> Jugador { get; set; } = new List<Jugador>();
 }

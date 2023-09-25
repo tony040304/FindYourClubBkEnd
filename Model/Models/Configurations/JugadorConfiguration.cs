@@ -11,14 +11,17 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Jugador> entity)
         {
-            entity.HasKey(e => e.JugadorId).HasName("PK__Jugador__4B57524216B2D73B");
+            entity.HasKey(e => e.JugadorId).HasName("PK__Jugador__4B575242CB989070");
 
-            entity.Property(e => e.JugadorId)
-            .ValueGeneratedNever()
-            .HasColumnName("JugadorID");
+            entity.Property(e => e.JugadorId).HasColumnName("JugadorID");
             entity.Property(e => e.Apellido).HasMaxLength(100);
             entity.Property(e => e.Nombre).HasMaxLength(100);
             entity.Property(e => e.Posicion).HasMaxLength(50);
+            entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Jugador)
+            .HasForeignKey(d => d.UsuarioId)
+            .HasConstraintName("FK__Jugador__Usuario__5441852A");
 
             entity.HasMany(d => d.Equipo).WithMany(p => p.Jugador)
             .UsingEntity<Dictionary<string, object>>(
@@ -26,14 +29,14 @@ namespace Model.Models.Configurations
                 r => r.HasOne<Equipo>().WithMany()
                     .HasForeignKey("EquipoId")
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__JugadorEq__Equip__3C69FB99"),
+                    .HasConstraintName("FK__JugadorEq__Equip__5AEE82B9"),
                 l => l.HasOne<Jugador>().WithMany()
                     .HasForeignKey("JugadorId")
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__JugadorEq__Jugad__3B75D760"),
+                    .HasConstraintName("FK__JugadorEq__Jugad__59FA5E80"),
                 j =>
                 {
-                    j.HasKey("JugadorId", "EquipoId").HasName("PK__JugadorE__A6BFF2FD864355DB");
+                    j.HasKey("JugadorId", "EquipoId").HasName("PK__JugadorE__A6BFF2FD525D7049");
                     j.IndexerProperty<int>("JugadorId").HasColumnName("JugadorID");
                     j.IndexerProperty<int>("EquipoId").HasColumnName("EquipoID");
                 });
