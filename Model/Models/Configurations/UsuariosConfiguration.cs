@@ -14,10 +14,13 @@ namespace Model.Models.Configurations
             entity.HasKey(e => e.UsuarioId).HasName("PK__Usuarios__2B3DE7987F300215");
 
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
-            entity.Property(e => e.Contrasenia)
-            .HasMaxLength(50)
-            .IsUnicode(false);
+            entity.Property(e => e.Contrasenia).HasMaxLength(255);
             entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.Property(e => e.RolId).HasColumnName("RolID");
+
+            entity.HasOne(d => d.RolNavigation).WithMany(p => p.Usuarios)
+            .HasForeignKey(d => d.RolId)
+            .HasConstraintName("FK__Usuarios__RolID__619B8048");
 
             OnConfigurePartial(entity);
         }

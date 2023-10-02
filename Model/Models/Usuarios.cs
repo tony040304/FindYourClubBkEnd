@@ -15,7 +15,11 @@ public partial class Usuarios
 
     public int? Rol { get; set; }
 
+    public int? RolId { get; set; }
+
     public virtual ICollection<Equipo> Equipo { get; set; } = new List<Equipo>();
 
     public virtual ICollection<Jugador> Jugador { get; set; } = new List<Jugador>();
+
+    public virtual Rol RolNavigation { get; set; }
 }

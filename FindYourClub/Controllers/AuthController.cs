@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOS;
 using Model.Models;
+using Model.ViewModel;
+using Service.IServices;
 
 namespace FindYourClub.Controllers
 {
@@ -9,34 +12,54 @@ namespace FindYourClub.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static Usuarios user = new Usuarios();
+        private readonly IAuthService _service;
+        private readonly ILogger<AuthController> _logger;
+
+        public AuthController(IAuthService service, ILogger<AuthController> logger)
+        {
+            _service = service;
+            _logger = logger;
+        }
 
         [HttpPost("register")]
-        public ActionResult<Usuarios> Register(UsuarioDTO request)
+        public ActionResult<string> Register([FromBody] UsuarioDTO User)
         {
-            string ContraseniaHash 
-                = BCrypt.Net.BCrypt.HashPassword(request.Contrasenia);
+            string response = string.Empty;
+            try
+            {
+                response = _service.Register(User);
+                if (response == "ingrese un usuario" || response == "Usuario existente")   
+                    return BadRequest(response);
+                
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("Cree usuario", ex);
+                return BadRequest($"{ex.Message}");
+            }
 
-            user.Nombre = request.Nombre;
-            user.Contrasenia = ContraseniaHash;
-
-            return Ok(user);
+            return Ok(response);
         }
 
         [HttpPost("login")]
-        public ActionResult<Usuarios> Login(UsuarioDTO request)
+        public ActionResult<string> Login([FromBody] AuthViewModel User)
         {
-            if (user.Nombre != request.Nombre)
+            string response = string.Empty;
+            try
             {
-                return BadRequest("Usuario no necontrado");
+                response = _service.Login(User);
+                if (string.IsNullOrEmpty(response))
+                {
+                    return NotFound("Nombre/Contraseña incorrecta");
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Login error: {ex}");
+                return BadRequest($"{ex.Message}");
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(request.Contrasenia, user.Contrasenia))
-            {
-                return BadRequest("Contrasenia incorrecta");
-            }
-
-            return Ok(user);
+            return Ok(response);
         }
 
     }

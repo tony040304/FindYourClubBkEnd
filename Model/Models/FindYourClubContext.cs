@@ -20,6 +20,8 @@ public partial class FindYourClubContext : DbContext
 
     public virtual DbSet<Mensaje> Mensaje { get; set; }
 
+    public virtual DbSet<Rol> Rol { get; set; }
+
     public virtual DbSet<Usuarios> Usuarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +29,7 @@ public partial class FindYourClubContext : DbContext
             modelBuilder.ApplyConfiguration(new Configurations.EquipoConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.JugadorConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.MensajeConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.RolConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.UsuariosConfiguration());
 
         OnModelCreatingPartial(modelBuilder);

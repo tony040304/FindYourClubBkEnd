@@ -10,10 +10,6 @@ namespace Model.DTOS
     {
         public string Nombre { get; set; }
 
-        public string Apellido { get; set; }
-
-        public int? Rol { get; set; }
-
         public string Contrasenia { get; set; }
 
     }

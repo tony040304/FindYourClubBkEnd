@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindYourClub", "FindYourClub\FindYourClub.csproj", "{AE0ABA38-AD7E-42C0-9BC6-7CDB2538BC4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{62503387-975C-4F12-9DC3-01EB6B46BCBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{62503387-975C-4F12-9DC3-01EB6B46BCBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{B827CF5E-B399-405E-BBDD-7A77C2675510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{62503387-975C-4F12-9DC3-01EB6B46BCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62503387-975C-4F12-9DC3-01EB6B46BCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62503387-975C-4F12-9DC3-01EB6B46BCBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B827CF5E-B399-405E-BBDD-7A77C2675510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B827CF5E-B399-405E-BBDD-7A77C2675510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B827CF5E-B399-405E-BBDD-7A77C2675510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B827CF5E-B399-405E-BBDD-7A77C2675510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
