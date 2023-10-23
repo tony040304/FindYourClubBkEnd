@@ -8,6 +8,8 @@ namespace FindYourClub
         public static void DependencyInjection(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IAuthService, AuthServices>();
+            builder.Services.AddScoped<IAdminService, AdminSerevice>();
+            builder.Services.AddScoped<IJugadorServices, JugadorServices>();
         }
     }
 }

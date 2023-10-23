@@ -48,6 +48,8 @@ namespace Service.Services
             {
                 Nombre = User.Nombre,
                 Contrasenia = User.Contrasenia.GetSHA256(),
+                Rol = User.Rol,
+                Email = User.Email
             });
             _context.SaveChanges();
 
@@ -78,7 +80,8 @@ namespace Service.Services
                     new Claim[]
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()),
-                        new Claim(ClaimTypes.Name, user.Nombre),                        
+                        new Claim(ClaimTypes.Name, user.Nombre),     
+                        new Claim(ClaimTypes.Role, user.Rol.ToString())
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

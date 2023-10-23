@@ -16,6 +16,10 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[Contrato]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Equipo]",
          "ObjectType": 0
       },
@@ -25,14 +29,6 @@
       },
       {
          "Name": "[dbo].[JugadorEquipo]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Mensaje]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Rol]",
          "ObjectType": 0
       },
       {
@@ -53,6 +49,7 @@
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
    "UseNullableReferences": false,

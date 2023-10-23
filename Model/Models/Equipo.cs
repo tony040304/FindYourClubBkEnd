@@ -15,7 +15,7 @@ public partial class Equipo
 
     public string Descripcion { get; set; }
 
-    public virtual ICollection<Mensaje> Mensaje { get; set; } = new List<Mensaje>();
+    public virtual ICollection<Contrato> Contrato { get; set; } = new List<Contrato>();
 
     public virtual Usuarios Usuario { get; set; }
 

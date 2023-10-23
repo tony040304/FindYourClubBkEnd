@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOS;
@@ -10,6 +11,7 @@ namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _service;
@@ -42,6 +44,7 @@ namespace FindYourClub.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public ActionResult<string> Login([FromBody] AuthViewModel User)
         {
             string response = string.Empty;

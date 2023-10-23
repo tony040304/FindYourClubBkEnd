@@ -9,8 +9,6 @@ public partial class Jugador
 {
     public int JugadorId { get; set; }
 
-    public int? UsuarioId { get; set; }
-
     public string Nombre { get; set; }
 
     public string Apellido { get; set; }
@@ -19,7 +17,7 @@ public partial class Jugador
 
     public string Posicion { get; set; }
 
-    public virtual ICollection<Mensaje> Mensaje { get; set; } = new List<Mensaje>();
+    public int? UsuarioId { get; set; }
 
     public virtual Usuarios Usuario { get; set; }
 

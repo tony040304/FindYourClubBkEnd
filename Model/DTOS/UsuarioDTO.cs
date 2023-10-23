@@ -12,5 +12,10 @@ namespace Model.DTOS
 
         public string Contrasenia { get; set; }
 
+        public int Rol { get; set; }
+
+        public string Email { get; set; }
+
+
     }
 }
