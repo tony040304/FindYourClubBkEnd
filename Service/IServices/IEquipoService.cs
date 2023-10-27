@@ -1,5 +1,4 @@
 ﻿using Model.DTOS;
-using Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Service.IServices
 {
-    public interface IJugadorServices
+    public interface IEquipoService
     {
-        string InsertarDatos(JugadorDTO jugador);
+        string InsertarDatosEquipo(EquipoDTO equipo);
     }
 }

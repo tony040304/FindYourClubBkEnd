@@ -10,6 +10,7 @@ namespace FindYourClub
             builder.Services.AddScoped<IAuthService, AuthServices>();
             builder.Services.AddScoped<IAdminService, AdminSerevice>();
             builder.Services.AddScoped<IJugadorServices, JugadorServices>();
+            builder.Services.AddScoped<IEquipoService, EquipoService>();
         }
     }
 }

@@ -1,33 +1,31 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Model.DTOS;
-using Model.ViewModel;
 using Service.IServices;
 
 namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JugadorController : ControllerBase
+    public class EquipoController : ControllerBase
     {
-        private readonly IJugadorServices _services;
-        private readonly ILogger<JugadorController> _logger;
+        private readonly IEquipoService _services;
+        private readonly ILogger<EquipoController> _logger;
 
-        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger)
+        public EquipoController(IEquipoService services, ILogger<EquipoController> logger)
         {
             _services = services;
             _logger = logger;
         }
 
-        [HttpPost("InsertarDatosJugador")]
-        public ActionResult<string> InsertarDatos([FromBody] JugadorDTO jugador)
+        [HttpPost("InsertarDatosEquipo")]
+        public ActionResult<string> InsertarDatosEquipo([FromBody] EquipoDTO equipo)
         {
             string response = string.Empty;
             try
             {
-                response = _services.InsertarDatos(jugador);
-                if (response == "ingrese un usuario" || response == "Usuario existente" || response == "Jugador y usuario no coinciden")
+                response = _services.InsertarDatosEquipo(equipo);
+                if (response == "ingrese nombre" || response == "Equipo existente" || response == "Equipo y usuario no coinciden")
                     return BadRequest(response);
 
             }

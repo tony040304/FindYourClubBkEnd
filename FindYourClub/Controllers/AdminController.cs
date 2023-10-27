@@ -59,7 +59,7 @@ namespace FindYourClub.Controllers
             }
         }
 
-        [HttpDelete("Borrar jugador/{id}")]
+        [HttpDelete("BorrarJugador/{id}")]
         public ActionResult DeleteJugador([FromRoute] int id) 
         {
             try
@@ -116,7 +116,7 @@ namespace FindYourClub.Controllers
             }
         }
 
-        [HttpDelete("Borrar equipo/{id}")]
+        [HttpDelete("BorrarEquipo/{id}")]
         public ActionResult DeleteEquipo([FromRoute] int id)
         {
             try

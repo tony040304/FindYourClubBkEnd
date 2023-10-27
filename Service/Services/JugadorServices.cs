@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Model.DTOS;
 using Model.Models;
 using Model.ViewModel;
@@ -23,24 +24,39 @@ namespace Service.Services
             _mapper = AutoMapperConfig.Configure();
         }
 
-        public JugadorDTO InsertarDatos(JugadorViewModel model)
+        public string InsertarDatos(JugadorDTO jugador)
         {
+            if (string.IsNullOrEmpty(jugador.Nombre))
+            {
+                return "ingrese nombre";
+            }
 
+            Jugador? jugador1 = _context.Jugador.FirstOrDefault(x => x.Nombre == jugador.Nombre);
 
+            if (jugador1.UsuarioId != null || jugador1.JugadorId != null)
+            {
+                return "Jugador existente";
+            }
+
+            if (jugador1.UsuarioId != jugador1.JugadorId)
+            {
+                return "Jugador y usuario no coinciden";
+            }
             _context.Jugador.Add(new Jugador()
             {
-                UsuarioId = _context.Usuarios.First(f => f.UsuarioId == model.UsuarioId).UsuarioId,
-                Nombre = model.Nombre,
-                Apellido = model.Apellido,
-                Descripcion = model.Descripcion,
-                Posicion = model.Posicion
+                JugadorId = jugador.JugadorId,
+                UsuarioId = jugador.UsuarioId,
+                Nombre = jugador.Nombre,
+                Apellido = jugador.Apellido,
+                Descripcion = jugador.Descripcion,
+                Posicion = jugador.Posicion
 
-            }); ;
+            });
             _context.SaveChanges();
 
-            var lastJugador = _context.Jugador.OrderBy(x => x.JugadorId).Last();
+            string lastJugador = _context.Jugador.OrderBy(x => x.JugadorId).Last().ToString();
 
-            return _mapper.Map<JugadorDTO>(lastJugador);
+            return lastJugador;
         }
     }
 }

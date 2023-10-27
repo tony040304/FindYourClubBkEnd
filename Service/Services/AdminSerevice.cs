@@ -25,13 +25,12 @@ namespace Service.Services
 
         public List<JugadorDTO> GetListaJugadores()
         {
-            return _mapper.Map<List<JugadorDTO>>(_context.Usuarios.Where(e => e.Rol == (int)RolesEnum.Jugador).ToList());
-
+            return _context.Jugador.ToList().Select(s=> new JugadorDTO() { UsuarioId = s.UsuarioId, JugadorId=s.JugadorId, Nombre=s.Nombre, Apellido=s.Apellido, Descripcion=s.Descripcion, Posicion=s.Posicion}).ToList();
         }
 
         public JugadorDTO GetJugadorByNombre(int id)
         {
-            return _mapper.Map<JugadorDTO>(_context.Usuarios.Where(e => e.UsuarioId == id).First());
+            return _mapper.Map<JugadorDTO>(_context.Jugador.Where(e => e.UsuarioId == id).First());
         }
 
         public void DeleteJugador(int id)
@@ -42,12 +41,12 @@ namespace Service.Services
 
         public List<EquipoDTO> GetListaEquipo()
         {
-            return _mapper.Map<List<EquipoDTO>>(_context.Usuarios.Where(e => e.Rol == (int)RolesEnum.Equipo).ToList());
+            return _context.Equipo.ToList().Select(s => new EquipoDTO() { UsuarioId = s.UsuarioId, EquipoId = s.EquipoId, Nombre = s.Nombre, Descripcion = s.Descripcion}).ToList();
         }
 
         public EquipoDTO GetEquipoById(int id)
         {
-            return _mapper.Map<EquipoDTO>(_context.Usuarios.Where(e => e.UsuarioId == id).First());
+            return _mapper.Map<EquipoDTO>(_context.Equipo.Where(e => e.UsuarioId == id).First());
         }
 
         public void DeleteEquipo(int id)
