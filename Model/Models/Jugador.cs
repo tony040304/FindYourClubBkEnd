@@ -7,8 +7,6 @@ namespace Model.Models;
 
 public partial class Jugador
 {
-    public int JugadorId { get; set; }
-
     public string Nombre { get; set; }
 
     public string Apellido { get; set; }
@@ -19,7 +17,11 @@ public partial class Jugador
 
     public int? UsuarioId { get; set; }
 
-    public virtual Usuarios Usuario { get; set; }
+    public int JugadorId { get; set; }
+
+    public virtual ICollection<Contrato> Contrato { get; set; } = new List<Contrato>();
 
     public virtual ICollection<Equipo> Equipo { get; set; } = new List<Equipo>();
+
+    public virtual Usuarios Usuario { get; set; }
 }

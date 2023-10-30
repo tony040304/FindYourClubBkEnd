@@ -16,6 +16,6 @@ namespace Model.DTOS
 
         public string Descripcion { get; set; }
 
-        public string Contrato { get; set; }
+        public string PosiciónRequerida { get; set; }
     }
 }

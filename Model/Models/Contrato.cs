@@ -9,8 +9,6 @@ public partial class Contrato
 {
     public int ContratoId { get; set; }
 
-    public int? UsuarioId { get; set; }
-
     public int? EquipoId { get; set; }
 
     public decimal? Salario { get; set; }
@@ -19,7 +17,9 @@ public partial class Contrato
 
     public decimal? MontoTraspaso { get; set; }
 
+    public int? JugadorId { get; set; }
+
     public virtual Equipo Equipo { get; set; }
 
-    public virtual Usuarios Usuario { get; set; }
+    public virtual Jugador Jugador { get; set; }
 }

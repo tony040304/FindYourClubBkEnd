@@ -14,12 +14,18 @@ namespace Model.Models.Configurations
             entity.HasKey(e => e.EquipoId).HasName("PK__Equipo__DE8A0BFFBC2EB200");
 
             entity.Property(e => e.EquipoId).HasColumnName("EquipoID");
+            entity.Property(e => e.JugadorId).HasColumnName("JugadorID");
             entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.Property(e => e.PosiciónRequerida).HasMaxLength(100);
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+
+            entity.HasOne(d => d.Jugador).WithMany(p => p.Equipo)
+            .HasForeignKey(d => d.JugadorId)
+            .HasConstraintName("FK_Jugador_Equipo");
 
             entity.HasOne(d => d.Usuario).WithMany(p => p.Equipo)
             .HasForeignKey(d => d.UsuarioId)
-            .HasConstraintName("FK__Equipo__UsuarioI__571DF1D5");
+            .HasConstraintName("FK_Usuario_Equipo");
 
             OnConfigurePartial(entity);
         }

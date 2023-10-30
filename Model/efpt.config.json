@@ -28,10 +28,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[JugadorEquipo]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Usuarios]",
          "ObjectType": 0
       }

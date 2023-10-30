@@ -16,17 +16,17 @@ namespace Model.Models.Configurations
             entity.Property(e => e.ContratoId).HasColumnName("ContratoID");
             entity.Property(e => e.EquipoId).HasColumnName("EquipoID");
             entity.Property(e => e.Fecha).HasColumnType("date");
+            entity.Property(e => e.JugadorId).HasColumnName("JugadorID");
             entity.Property(e => e.MontoTraspaso).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Salario).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
             entity.HasOne(d => d.Equipo).WithMany(p => p.Contrato)
             .HasForeignKey(d => d.EquipoId)
             .HasConstraintName("FK_Equipo_Contrato");
 
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Contrato)
-            .HasForeignKey(d => d.UsuarioId)
-            .HasConstraintName("FK_Usuario_Contrato");
+            entity.HasOne(d => d.Jugador).WithMany(p => p.Contrato)
+            .HasForeignKey(d => d.JugadorId)
+            .HasConstraintName("FK_Jugador_Contrato");
 
             OnConfigurePartial(entity);
         }

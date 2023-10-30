@@ -17,8 +17,6 @@ public partial class Usuarios
 
     public string Email { get; set; }
 
-    public virtual ICollection<Contrato> Contrato { get; set; } = new List<Contrato>();
-
     public virtual ICollection<Equipo> Equipo { get; set; } = new List<Equipo>();
 
     public virtual ICollection<Jugador> Jugador { get; set; } = new List<Jugador>();

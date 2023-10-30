@@ -25,7 +25,7 @@ namespace FindYourClub.Controllers
             try
             {
                 response = _services.InsertarDatosEquipo(equipo);
-                if (response == "ingrese nombre" || response == "Equipo existente" || response == "Equipo y usuario no coinciden")
+                if (response == "ingrese nombre" || response == "Equipo existente")
                     return BadRequest(response);
 
             }

@@ -1,33 +1,32 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Model.DTOS;
-using Model.ViewModel;
+using Model.Models;
 using Service.IServices;
 
 namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JugadorController : ControllerBase
+    public class ContratoController : ControllerBase
     {
-        private readonly IJugadorServices _services;
-        private readonly ILogger<JugadorController> _logger;
+        private readonly IContratoServices _contratoServices;
+        private readonly ILogger<ContratoController> _logger;
 
-        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger)
+        public ContratoController(IContratoServices contratoServices, ILogger<ContratoController> logger)
         {
-            _services = services;
+            _contratoServices = contratoServices;
             _logger = logger;
         }
 
-        [HttpPost("InsertarDatosJugador")]
-        public ActionResult<string> InsertarDatos([FromBody] JugadorDTO jugador)
+        [HttpPost]
+        public ActionResult<string> CrearContrato(ContratoDTO contrato)
         {
             string response = string.Empty;
             try
             {
-                response = _services.InsertarDatos(jugador);
-                if (response == "ingrese nombre" || response == "Jugador existente")
+                response = _contratoServices.CrearContrato(contrato);
+                if (response == "Falta id equipo o id jugador" || response == "Contrato existente")
                     return BadRequest(response);
 
             }
@@ -38,7 +37,6 @@ namespace FindYourClub.Controllers
             }
 
             return Ok(response);
-
         }
     }
 }

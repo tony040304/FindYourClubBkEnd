@@ -15,9 +15,13 @@ public partial class Equipo
 
     public string Descripcion { get; set; }
 
+    public string PosiciónRequerida { get; set; }
+
+    public int? JugadorId { get; set; }
+
     public virtual ICollection<Contrato> Contrato { get; set; } = new List<Contrato>();
 
-    public virtual Usuarios Usuario { get; set; }
+    public virtual Jugador Jugador { get; set; }
 
-    public virtual ICollection<Jugador> Jugador { get; set; } = new List<Jugador>();
+    public virtual Usuarios Usuario { get; set; }
 }

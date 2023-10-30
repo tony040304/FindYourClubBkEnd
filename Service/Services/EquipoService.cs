@@ -31,22 +31,21 @@ namespace Service.Services
 
             Equipo? equipo1 = _context.Equipo.FirstOrDefault(x => x.Nombre == equipo.Nombre);
 
-            if (equipo1.UsuarioId != null)
+            if (equipo1 != null)
             {
                 return "Equipo existente";
             }
 
-            if (equipo1.UsuarioId != equipo1.EquipoId)
-            {
-                return "Equipo y usuario no coinciden";
-            }
+            
+
             _context.Equipo.Add(new Equipo()
             {
                 EquipoId = equipo.EquipoId,
                 UsuarioId = equipo.UsuarioId,
                 Nombre = equipo.Nombre,
-                Descripcion = equipo.Descripcion
-            });
+                Descripcion = equipo.Descripcion,
+                PosiciónRequerida = equipo.PosiciónRequerida
+             });
             _context.SaveChanges();
 
             string lastEquipo = _context.Equipo.OrderBy(x => x.EquipoId).Last().ToString();

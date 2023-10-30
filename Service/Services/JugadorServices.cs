@@ -33,18 +33,13 @@ namespace Service.Services
 
             Jugador? jugador1 = _context.Jugador.FirstOrDefault(x => x.Nombre == jugador.Nombre);
 
-            if (jugador1.UsuarioId != null || jugador1.JugadorId != null)
+            if (jugador1 != null)
             {
                 return "Jugador existente";
             }
 
-            if (jugador1.UsuarioId != jugador1.JugadorId)
-            {
-                return "Jugador y usuario no coinciden";
-            }
             _context.Jugador.Add(new Jugador()
             {
-                JugadorId = jugador.JugadorId,
                 UsuarioId = jugador.UsuarioId,
                 Nombre = jugador.Nombre,
                 Apellido = jugador.Apellido,
