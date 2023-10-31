@@ -15,6 +15,9 @@ namespace Model.Models.Configurations
 
             entity.Property(e => e.EquipoId).HasColumnName("EquipoID");
             entity.Property(e => e.JugadorId).HasColumnName("JugadorID");
+            entity.Property(e => e.Liga)
+            .HasMaxLength(100)
+            .IsFixedLength();
             entity.Property(e => e.Nombre).HasMaxLength(100);
             entity.Property(e => e.PosiciónRequerida).HasMaxLength(100);
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");

@@ -23,5 +23,7 @@ public partial class Jugador
 
     public virtual ICollection<Equipo> Equipo { get; set; } = new List<Equipo>();
 
+    public virtual ICollection<Postulacion> Postulacion { get; set; } = new List<Postulacion>();
+
     public virtual Usuarios Usuario { get; set; }
 }

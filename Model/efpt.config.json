@@ -28,6 +28,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Postulacion]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Usuarios]",
          "ObjectType": 0
       }

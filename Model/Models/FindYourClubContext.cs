@@ -20,6 +20,8 @@ public partial class FindYourClubContext : DbContext
 
     public virtual DbSet<Jugador> Jugador { get; set; }
 
+    public virtual DbSet<Postulacion> Postulacion { get; set; }
+
     public virtual DbSet<Usuarios> Usuarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
