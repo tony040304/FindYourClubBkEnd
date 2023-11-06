@@ -20,6 +20,25 @@ namespace FindYourClub.Controllers
             _logger = logger;
         }
 
+        [HttpGet("GetUsuarios")]
+        public ActionResult<List<JugadorDTO>> GetUsuarios()
+        {
+            try
+            {
+                var response = _Service.GetUsuarios();
+                if (response.Count == 0)
+                {
+                    NotFound("No hay usuarios");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAll", ex);
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("GetJugadores")]
         public ActionResult<List<JugadorDTO>> GetListaJugadores()
         {

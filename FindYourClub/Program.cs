@@ -11,11 +11,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+
 builder.Services.AddSpaStaticFiles(configuration => {
     configuration.RootPath = "clientapp/dist";
 });
-
-var appSettingsSection = builder.Configuration.GetSection("AppSettings");
 
 builder.Services.Configure<AppSttings>(appSettingsSection);
 
@@ -104,7 +104,6 @@ else
         client.UseSpaStaticFiles();
         client.UseSpa(spa => {
             spa.Options.SourcePath = "clientapp";
-
             // adds no-store header to index page to prevent deployment issues (prevent linking to old .js files)
             // .js and other static resources are still cached by the browser
             spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
@@ -123,5 +122,6 @@ else
         });
     });
 }
+
 
 app.Run();

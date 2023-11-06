@@ -13,14 +13,12 @@ namespace FindYourClub.Controllers
     public class JugadorController : ControllerBase
     {
         private readonly IJugadorServices _services;
-        private readonly IFactoryPostulacion factoryPostulacion;
         private readonly ILogger<JugadorController> _logger;
 
-        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger, IFactoryPostulacion factoryPostulacion)
+        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger)
         {
             _services = services;
             _logger = logger;
-            this.factoryPostulacion = factoryPostulacion;
         }
 
         [HttpPost("InsertarDatosJugador")]
@@ -50,7 +48,7 @@ namespace FindYourClub.Controllers
             string response = string.Empty;
             try
             {
-                response = factoryPostulacion.CrearPostulaciones(postu);
+                response = _services.CrearPostulaciones(postu);
                 if (response == "postulacion existente" || response == "Falta id equipo o id jugador")
                     return BadRequest(response);
 

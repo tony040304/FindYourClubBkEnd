@@ -30,12 +30,12 @@ namespace Service.Services
 
         public JugadorDTO GetJugadorByNombre(int id)
         {
-            return _mapper.Map<JugadorDTO>(_context.Jugador.Where(e => e.UsuarioId == id).First());
+            return _mapper.Map<JugadorDTO>(_context.Jugador.Where(e => e.JugadorId == id).First());
         }
 
         public void DeleteJugador(int id)
         {
-            _context.Usuarios.Remove(_context.Usuarios.Single(f => f.UsuarioId == id));
+            _context.Jugador.Remove(_context.Jugador.Single(f => f.JugadorId == id));
             _context.SaveChanges();
         }
 
@@ -46,13 +46,18 @@ namespace Service.Services
 
         public EquipoDTO GetEquipoById(int id)
         {
-            return _mapper.Map<EquipoDTO>(_context.Equipo.Where(e => e.UsuarioId == id).First());
+            return _mapper.Map<EquipoDTO>(_context.Equipo.Where(e => e.EquipoId == id).First());
         }
 
         public void DeleteEquipo(int id)
         {
-            _context.Usuarios.Remove(_context.Usuarios.Single(f => f.UsuarioId == id));
+            _context.Equipo.Remove(_context.Equipo.Single(f => f.EquipoId == id));
             _context.SaveChanges();
+        }
+
+        public List<UsuarioDTO> GetUsuarios()
+        {
+            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { Nombre = s.Nombre, Email = s.Nombre, Rol = (int)s.Rol }).ToList();
         }
     }
 }

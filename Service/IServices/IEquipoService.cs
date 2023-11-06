@@ -10,5 +10,7 @@ namespace Service.IServices
     public interface IEquipoService
     {
         string InsertarDatosEquipo(EquipoDTO equipo);
+
+
     }
 }

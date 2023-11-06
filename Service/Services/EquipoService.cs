@@ -52,5 +52,7 @@ namespace Service.Services
 
             return lastEquipo;
         }
+
+      
     }
 }

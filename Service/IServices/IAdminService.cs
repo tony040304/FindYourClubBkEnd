@@ -16,5 +16,6 @@ namespace Service.IServices
         List<EquipoDTO> GetListaEquipo();
         EquipoDTO GetEquipoById(int id);
         void DeleteEquipo(int  id);
+        List<UsuarioDTO> GetUsuarios();
     }
 }
