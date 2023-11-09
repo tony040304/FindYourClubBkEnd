@@ -44,7 +44,6 @@ namespace FindYourClub.Controllers
         }
 
         [HttpPost("login")]
-        [AllowAnonymous]
         public ActionResult<string> Login([FromBody] AuthViewModel User)
         {
             string response = string.Empty;

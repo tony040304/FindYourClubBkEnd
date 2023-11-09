@@ -21,12 +21,12 @@ namespace Service.Services
     public class AuthServices : IAuthService
     {
         private readonly FindYourClubContext _context;
-        private readonly AppSttings _sttings;
+        private readonly IConfiguration _settings;
 
-        public AuthServices(FindYourClubContext context, IOptions<AppSttings> appSetings)
+        public AuthServices(FindYourClubContext context, IConfiguration configuration)
         {
             _context = context;
-            _sttings = appSetings.Value;
+            _settings = configuration;
         }
 
 
@@ -72,22 +72,39 @@ namespace Service.Services
 
         private string GetToken(Usuarios user)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_sttings.key);
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(
-                    new Claim[]
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()),
-                        new Claim(ClaimTypes.Name, user.Nombre),     
-                        new Claim(ClaimTypes.Role, user.Rol.ToString())
-                    }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings["AppSettings:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+            var claimsForToken = new List<Claim>();
+            claimsForToken.Add(new Claim("sub", user.Nombre));
+            claimsForToken.Add(new Claim("given_name", user.Nombre));
+            claimsForToken.Add(new Claim("email", user.Email));
+            claimsForToken.Add(new Claim("role", user.Rol.ToString()));
+
+            var Sectoken = new JwtSecurityToken(_settings["AppSettings:Issuer"],
+              _settings["AppSettings:Issuer"],
+              claimsForToken,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
+            return token;
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var key = Encoding.ASCII.GetBytes(_sttings.key);
+            //var tokenDescriptor = new SecurityTokenDescriptor()
+            //{
+            //    Subject = new ClaimsIdentity(
+            //        new Claim[]
+            //        {
+            //            new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()),
+            //            new Claim(ClaimTypes.Name, user.Nombre),     
+            //            new Claim(ClaimTypes.Role, user.Rol.ToString())
+            //        }),
+            //    Expires = DateTime.UtcNow.AddHours(1),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            //};
+
+            //return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
     }
 }

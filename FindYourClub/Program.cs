@@ -20,25 +20,26 @@ builder.Services.AddSpaStaticFiles(configuration => {
 builder.Services.Configure<AppSttings>(appSettingsSection);
 
 var appSettings = appSettingsSection.Get<AppSttings>();
-var key = Encoding.ASCII.GetBytes(appSettings?.key);
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = true;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
 
+//Jwt configuration starts here
+var jwtIssuer = builder.Configuration.GetSection("AppSettings:Issuer").Get<string>();
+var jwtKey = builder.Configuration.GetSection("AppSettings:Key").Get<string>();
+
+builder.Services.AddAuthentication("Bearer")
+ .AddJwtBearer(options =>
+ {
+     options.TokenValidationParameters = new TokenValidationParameters
+     {
+         ValidateIssuer = true,
+         ValidateAudience = true,
+         ValidateLifetime = true,
+         ValidateIssuerSigningKey = true,
+         ValidIssuer = jwtIssuer,
+         ValidAudience = jwtIssuer,
+         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+     };
+ });
+//Jwt configuration ends here
 
 
 
@@ -80,9 +81,8 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
