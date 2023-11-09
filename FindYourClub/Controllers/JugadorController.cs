@@ -13,12 +13,14 @@ namespace FindYourClub.Controllers
     public class JugadorController : ControllerBase
     {
         private readonly IJugadorServices _services;
+        private readonly IFactoryMethJugadores _factoryMethJugadores;
         private readonly ILogger<JugadorController> _logger;
 
-        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger)
+        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger, IFactoryMethJugadores factoryMethJugadores)
         {
             _services = services;
             _logger = logger;
+            _factoryMethJugadores = factoryMethJugadores;
         }
 
         [HttpPost("InsertarDatosJugador")]
@@ -60,6 +62,26 @@ namespace FindYourClub.Controllers
             }
 
             return Ok(response);
+        }
+
+        [HttpGet("GetListaEquipoXJugadores")]
+        public ActionResult<List<EquipoDTO>> GetListaEquipo()
+        {
+            try
+            {
+                var response = _factoryMethJugadores.GetListaEquipo();
+                if (response.Count == 0)
+                {
+                    NotFound("No existe ningun equipo");
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAll", ex);
+                return BadRequest($"{ex.Message}");
+            }
         }
     }
 }

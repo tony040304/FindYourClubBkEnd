@@ -38,11 +38,6 @@ namespace Service.Services
                 return "Jugador existente";
             }
 
-            if (jugador1.UsuarioId == jugador.UsuarioId)
-            {
-                return "Jugador existente";
-            }
-
             _context.Jugador.Add(new Jugador()
             {
                 UsuarioId = jugador.UsuarioId,

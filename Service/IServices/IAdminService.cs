@@ -10,11 +10,10 @@ namespace Service.IServices
     public interface IAdminService
     {
         List<JugadorDTO> GetListaJugadores();
-        JugadorDTO GetJugadorByNombre(int id);
+        JugadorDTO GetJugadorByNombre(string nombre);
         void DeleteJugador(int id);
 
-        List<EquipoDTO> GetListaEquipo();
-        EquipoDTO GetEquipoById(int id);
+        EquipoDTO GetEquipoById(string nombre);
         void DeleteEquipo(int  id);
         List<UsuarioDTO> GetUsuarios();
     }

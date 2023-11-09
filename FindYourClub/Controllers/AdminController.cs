@@ -12,12 +12,16 @@ namespace FindYourClub.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _Service;
+        private readonly IFactoryMethJugadores _FactoryMethJugadores;
+        private readonly IFactoryMethEquipo _factoryMethEquipo;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IAdminService Service, ILogger<AdminController> logger)
+        public AdminController(IAdminService Service, ILogger<AdminController> logger, IFactoryMethJugadores factoryMethJugadores, IFactoryMethEquipo factoryMethEquipo)
         {
             _Service = Service;
             _logger = logger;
+            _FactoryMethJugadores = factoryMethJugadores;
+            _factoryMethEquipo = factoryMethEquipo;
         }
 
         [HttpGet("GetUsuarios")]
@@ -58,15 +62,15 @@ namespace FindYourClub.Controllers
             }
         }
 
-        [HttpGet("GetJugadoresById/{id}")]
-        public ActionResult<JugadorDTO> GetJugadorByNombre([FromRoute] int id)
+        [HttpGet("GetJugadoresById/{nombre}")]
+        public ActionResult<JugadorDTO> GetJugadorByNombre([FromRoute] string nombre)
         {
             try
             {
-                var response = _Service.GetJugadorByNombre(id);
+                var response = _Service.GetJugadorByNombre(nombre);
                 if (response == null)
                 {
-                    return NotFound($"No se encontro el jugador con el id {id}");
+                    return NotFound($"No se encontro el jugador con el id {nombre}");
                 }
 
                 return Ok(response);
@@ -95,12 +99,12 @@ namespace FindYourClub.Controllers
 
 
 
-        [HttpGet("GetListaEquipo")]
+        [HttpGet("GetListaEquipoxAdmin")]
         public ActionResult<List<EquipoDTO>> GetListaEquipo()
         {
             try
             {
-                var response = _Service.GetListaEquipo();
+                var response = _FactoryMethJugadores.GetListaEquipo();
                 if (response.Count == 0)
                 {
                     NotFound("No existe ningun equipo");
@@ -115,15 +119,15 @@ namespace FindYourClub.Controllers
             }
         }
 
-        [HttpGet("GetEquipoById/{id}")]
-        public ActionResult<EquipoDTO> GetEquipoById([FromRoute] int id)
+        [HttpGet("GetEquipoById/{nombre}")]
+        public ActionResult<EquipoDTO> GetEquipoById([FromRoute] string nombre)
         {
             try
             {
-                var response = _Service.GetEquipoById(id);
+                var response = _Service.GetEquipoById(nombre);
                 if (response == null)
                 {
-                    return NotFound($"No se encontro el equipo con el id {id}");
+                    return NotFound($"No se encontro el equipo con el id {nombre}");
                 }
 
                 return Ok(response);
@@ -149,5 +153,90 @@ namespace FindYourClub.Controllers
                 return BadRequest($"{ex.Message}");
             }
         }
+        [HttpPost("CrearContrato")]
+        public ActionResult<string> CrearContrato(ContratoDTO contrato)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = _factoryMethEquipo.CrearContrato(contrato);
+                if (response == "Falta id equipo o id jugador" || response == "Contrato existente")
+                    return BadRequest(response);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Cree usuario", ex);
+                return BadRequest($"{ex.Message}");
+            }
+
+            return Ok(response);
+        }
+        [HttpGet("GetContratoListaxAdmin")]
+        public ActionResult<List<JugadorDTO>> ContratoList()
+        {
+            try
+            {
+                var response = _factoryMethEquipo.ContratoList();
+                if (response.Count == 0)
+                {
+                    NotFound("No hay usuarios");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAll", ex);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetPostulacionListaxAdmin")]
+        public ActionResult<List<JugadorDTO>> GetListaPostulacion()
+        {
+            try
+            {
+                var response = _factoryMethEquipo.GetListaPostulacion();
+                if (response.Count == 0)
+                {
+                    NotFound("No hay usuarios");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAll", ex);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("BorrarPostulacion/{id}")]
+        public ActionResult DeletePostulacion([FromRoute] int id)
+        {
+            try
+            {
+                _factoryMethEquipo.DeletePostulacion(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return BadRequest($"{ex.Message}");
+            }
+        }
+        [HttpDelete("BorrarContrato/{id}")]
+        public ActionResult DeleteContrato([FromRoute] int id)
+        {
+            try
+            {
+                _factoryMethEquipo.DeleteContrato(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return BadRequest($"{ex.Message}");
+            }
+        }
+
     }
 }
