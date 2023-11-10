@@ -10,7 +10,6 @@ namespace Service.IServices
 {
     public interface IJugadorServices
     {
-        string InsertarDatos(JugadorDTO jugador);
 
         string CrearPostulaciones(PostulacionDTO postu);
 

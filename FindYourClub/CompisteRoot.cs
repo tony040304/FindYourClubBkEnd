@@ -13,6 +13,7 @@ namespace FindYourClub
             builder.Services.AddScoped<IEquipoService, EquipoService>();
             builder.Services.AddScoped<IFactoryMethEquipo, FactoryEquipoServices>();
             builder.Services.AddScoped<IFactoryMethJugadores, FactoryJugadoresService>();
+            builder.Services.AddScoped<IFactory, MiFactory>();
         }
     }
 }

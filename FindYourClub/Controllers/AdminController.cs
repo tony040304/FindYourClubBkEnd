@@ -9,6 +9,7 @@ namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "1")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _Service;

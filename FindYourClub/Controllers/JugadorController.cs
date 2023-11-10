@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.DTOS;
@@ -10,17 +11,20 @@ namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "2")]
     public class JugadorController : ControllerBase
     {
         private readonly IJugadorServices _services;
         private readonly IFactoryMethJugadores _factoryMethJugadores;
+        private readonly IFactory _factory;
         private readonly ILogger<JugadorController> _logger;
 
-        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger, IFactoryMethJugadores factoryMethJugadores)
+        public JugadorController(IJugadorServices services, ILogger<JugadorController> logger, IFactoryMethJugadores factoryMethJugadores, IFactory factory)
         {
             _services = services;
             _logger = logger;
             _factoryMethJugadores = factoryMethJugadores;
+            _factory = factory;
         }
 
         [HttpPost("InsertarDatosJugador")]
@@ -29,7 +33,7 @@ namespace FindYourClub.Controllers
             string response = string.Empty;
             try
             {
-                response = _services.InsertarDatos(jugador);
+                response = _factory.InsertarDatosJugador(jugador);
                 if (response == "ingrese nombre" || response == "Jugador existente")
                     return BadRequest(response);
 

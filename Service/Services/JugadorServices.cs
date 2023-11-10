@@ -24,35 +24,6 @@ namespace Service.Services
             _mapper = AutoMapperConfig.Configure();
         }
 
-        public string InsertarDatos(JugadorDTO jugador)
-        {
-            if (string.IsNullOrEmpty(jugador.Nombre))
-            {
-                return "ingrese nombre";
-            }
-
-            Jugador? jugador1 = _context.Jugador.FirstOrDefault(x => x.Nombre == jugador.Nombre);
-
-            if (jugador1 != null)
-            {
-                return "Jugador existente";
-            }
-
-            _context.Jugador.Add(new Jugador()
-            {
-                UsuarioId = jugador.UsuarioId,
-                Nombre = jugador.Nombre,
-                Apellido = jugador.Apellido,
-                Descripcion = jugador.Descripcion,
-                Posicion = jugador.Posicion
-
-            });
-            _context.SaveChanges();
-
-            string lastJugador = _context.Jugador.OrderBy(x => x.JugadorId).Last().ToString();
-
-            return lastJugador;
-        }
 
         public string CrearPostulaciones(PostulacionDTO postu)
         {

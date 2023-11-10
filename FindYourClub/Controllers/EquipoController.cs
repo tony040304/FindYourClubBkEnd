@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOS;
 using Service.IServices;
@@ -7,17 +8,20 @@ namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "3")]
     public class EquipoController : ControllerBase
     {
         private readonly IEquipoService _services;
         private readonly IFactoryMethEquipo _factoryMethEquipo;
+        private readonly IFactory _factory;
         private readonly ILogger<EquipoController> _logger;
 
-        public EquipoController(IEquipoService services, ILogger<EquipoController> logger, IFactoryMethEquipo factoryMethEquipo)
+        public EquipoController(IEquipoService services, ILogger<EquipoController> logger, IFactoryMethEquipo factoryMethEquipo, IFactory factory)
         {
             _services = services;
             _logger = logger;
-            _factoryMethEquipo = factoryMethEquipo; 
+            _factoryMethEquipo = factoryMethEquipo;
+            _factory = factory;
         }
 
         [HttpPost("InsertarDatosEquipo")]
@@ -26,7 +30,7 @@ namespace FindYourClub.Controllers
             string response = string.Empty;
             try
             {
-                response = _services.InsertarDatosEquipo(equipo);
+                response = _factory.InsertarDatosEquipo(equipo);
                 if (response == "ingrese nombre" || response == "Equipo existente")
                     return BadRequest(response);
 

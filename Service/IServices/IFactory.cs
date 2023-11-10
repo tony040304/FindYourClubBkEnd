@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Service.IServices
 {
-    public interface IEquipoService
+    public interface IFactory
     {
-
-
+        string InsertarDatosJugador(JugadorDTO jugador);
+        string InsertarDatosEquipo(EquipoDTO equipo);
     }
 }

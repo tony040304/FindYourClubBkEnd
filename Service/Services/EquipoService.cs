@@ -22,40 +22,6 @@ namespace Service.Services
             _mapper = AutoMapperConfig.Configure();
         }
 
-        public string InsertarDatosEquipo(EquipoDTO equipo)
-        {
-            if (string.IsNullOrEmpty(equipo.Nombre))
-            {
-                return "ingrese nombre";
-            }
-
-            Equipo? equipo1 = _context.Equipo.FirstOrDefault(x => x.Nombre == equipo.Nombre);
-
-            if (equipo1 != null)
-            {
-                return "Equipo existente";
-            }
-
-            if (equipo1.UsuarioId == equipo.UsuarioId)
-            {
-                return "Jugador existente";
-            }
-
-            _context.Equipo.Add(new Equipo()
-            {
-                EquipoId = equipo.EquipoId,
-                UsuarioId = equipo.UsuarioId,
-                Nombre = equipo.Nombre,
-                Descripcion = equipo.Descripcion,
-                PosiciónRequerida = equipo.PosiciónRequerida
-             });
-            _context.SaveChanges();
-
-            string lastEquipo = _context.Equipo.OrderBy(x => x.EquipoId).Last().ToString();
-
-            return lastEquipo;
-        }
-
       
     }
 }
