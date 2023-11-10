@@ -53,7 +53,7 @@ namespace Service.Services
 
         public List<UsuarioDTO> GetUsuarios()
         {
-            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { Nombre = s.Nombre, Email = s.Nombre, Rol = (int)s.Rol }).ToList();
+            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { UsuarioId = s.UsuarioId, Nombre = s.Nombre, Email = s.Nombre, Rol = (int)s.Rol }).ToList();
         }
 
     }

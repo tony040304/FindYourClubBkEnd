@@ -64,7 +64,7 @@ namespace FindYourClub.Controllers
             return Ok(response);
         }
         [HttpGet("GetContratoListaxEquipo")]
-        public ActionResult<List<JugadorDTO>> ContratoList()
+        public ActionResult<List<ContratoDTO>> ContratoList()
         {
             try
             {
@@ -83,7 +83,7 @@ namespace FindYourClub.Controllers
         }
 
         [HttpGet("GetPostulacionListaxEquipo")]
-        public ActionResult<List<JugadorDTO>> GetListaPostulacion()
+        public ActionResult<List<PostulacionDTO>> GetListaPostulacion()
         {
             try
             {
