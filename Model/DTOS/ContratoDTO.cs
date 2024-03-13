@@ -8,16 +8,14 @@ namespace Model.DTOS
 {
     public class ContratoDTO
     {
-        public int ContratoId { get; set; }
+        public int Id { get; set; }
 
-        public int? EquipoId { get; set; }
+        public decimal? SalarioJugador { get; set; }
 
-        public decimal? Salario { get; set; }
+        public DateTime? FechaContrato { get; set; }
 
-        public DateTime? Fecha { get; set; }
+        public int? UsuEquipoId { get; set; }
 
-        public decimal? MontoTraspaso { get; set; }
-
-        public int? JugadorId { get; set; }
+        public int? UsuJugadorId { get; set; }
     }
 }

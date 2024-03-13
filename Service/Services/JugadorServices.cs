@@ -8,6 +8,7 @@ using Service.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,28 +28,23 @@ namespace Service.Services
 
         public string CrearPostulaciones(PostulacionDTO postu)
         {
-            Postulacion? postulacion = _context.Postulacion.FirstOrDefault(x => x.PostulacionId == postu.PostulacionId);
+            Postulacion? postulacion = _context.Postulacion.FirstOrDefault(x => x.Idpostulacion == postu.Idpostulacion);
 
             if (postulacion != null)
             {
                 return "postulacion existente";
             }
 
-            if (postu.Idequipo == null || postu.Idjugador == 0)
-            {
-                return "Falta id equipo o id jugador";
-            }
-
             _context.Postulacion.Add(new Postulacion()
             {
-                PostulacionId = postu.PostulacionId,
-                Idequipo = postu.Idequipo,
-                Idjugador = postu.Idjugador,
+                Idpostulacion = postu.Idpostulacion,
+                UsuEquipoId = postu.UsuEquipoId,
+                UsuJugadorId = postu.UsuJugadorId,
                 FechaPostulacion = postu.FechaPostulacion
             });
             _context.SaveChanges();
 
-            string lastPostu = _context.Postulacion.OrderBy(x => x.PostulacionId).Last().ToString();
+            string lastPostu = _context.Postulacion.OrderBy(x => x.Idpostulacion).Last().ToString();
 
             return lastPostu;
         }

@@ -17,5 +17,7 @@ namespace Model.DTOS
         public string Descripcion { get; set; }
 
         public string PosiciónRequerida { get; set; }
+
+        public string Liga { get; set; }
     }
 }

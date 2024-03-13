@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Service.IServices
 {
-    public interface IFactoryMethEquipo
+    public interface IEquipService
     {
         string CrearContrato(ContratoDTO contrato);
-        List<ContratoDTO> ContratoList();
-        List<PostulacionDTO> GetListaPostulacion();
+        ContratoDTO ContratoList(int id);
+        List<JugadorPostulacionDTO> GetPostulacionbyTeam(int UsuEquipoId);
         void DeletePostulacion(int id);
         void DeleteContrato(int id);
     }

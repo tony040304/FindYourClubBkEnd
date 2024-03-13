@@ -9,20 +9,18 @@ namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "1")]
+    //[Authorize(Roles = "1")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _Service;
         private readonly IFactoryMethJugadores _FactoryMethJugadores;
-        private readonly IFactoryMethEquipo _factoryMethEquipo;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IAdminService Service, ILogger<AdminController> logger, IFactoryMethJugadores factoryMethJugadores, IFactoryMethEquipo factoryMethEquipo)
+        public AdminController(IAdminService Service, ILogger<AdminController> logger, IFactoryMethJugadores factoryMethJugadores)
         {
             _Service = Service;
             _logger = logger;
             _FactoryMethJugadores = factoryMethJugadores;
-            _factoryMethEquipo = factoryMethEquipo;
         }
 
         [HttpGet("GetUsuarios")]
@@ -160,7 +158,7 @@ namespace FindYourClub.Controllers
             string response = string.Empty;
             try
             {
-                response = _factoryMethEquipo.CrearContrato(contrato);
+                response = _Service.CrearContrato(contrato);
                 if (response == "Falta id equipo o id jugador" || response == "Contrato existente")
                     return BadRequest(response);
 
@@ -178,7 +176,7 @@ namespace FindYourClub.Controllers
         {
             try
             {
-                var response = _factoryMethEquipo.ContratoList();
+                var response = _Service.ContratoList();
                 if (response.Count == 0)
                 {
                     NotFound("No hay usuarios");
@@ -196,7 +194,7 @@ namespace FindYourClub.Controllers
         {
             try
             {
-                var response = _factoryMethEquipo.GetListaPostulacion();
+                var response = _Service.GetListaPostulacion();
                 if (response.Count == 0)
                 {
                     NotFound("No hay usuarios");
@@ -215,7 +213,7 @@ namespace FindYourClub.Controllers
         {
             try
             {
-                _factoryMethEquipo.DeletePostulacion(id);
+                _Service.DeletePostulacion(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -229,7 +227,7 @@ namespace FindYourClub.Controllers
         {
             try
             {
-                _factoryMethEquipo.DeleteContrato(id);
+                _Service.DeleteContrato(id);
                 return Ok();
             }
             catch (Exception ex)

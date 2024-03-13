@@ -6,7 +6,6 @@ using Model.DTOS;
 using Model.Helper;
 using Model.Models;
 using Model.ViewModel;
-using Service.Helper;
 using Service.IServices;
 using System;
 using System.Collections.Generic;
@@ -47,7 +46,7 @@ namespace Service.Services
             _context.Usuarios.Add(new Usuarios()
             {
                 Nombre = User.Nombre,
-                Contrasenia = User.Contrasenia.GetSHA256(),
+                Contrasenia = User.Contrasenia,
                 Rol = User.Rol,
                 Email = User.Email
             });
@@ -60,7 +59,7 @@ namespace Service.Services
 
         public string Login(AuthViewModel User)
         {
-            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.Nombre == User.Nombre || x.Contrasenia == User.Password);
+            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.Nombre == User.Nombre && x.Contrasenia == User.Password);
 
             if (user == null)
             {

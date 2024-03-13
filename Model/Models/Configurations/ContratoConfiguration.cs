@@ -11,22 +11,27 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Contrato> entity)
         {
-            entity.HasKey(e => e.ContratoId).HasName("PK__Contrato__B238E953333135DE");
+            entity.HasKey(e => e.Id).HasName("PK__contrato__3213E83FD5201CCE");
 
-            entity.Property(e => e.ContratoId).HasColumnName("ContratoID");
-            entity.Property(e => e.EquipoId).HasColumnName("EquipoID");
-            entity.Property(e => e.Fecha).HasColumnType("date");
-            entity.Property(e => e.JugadorId).HasColumnName("JugadorID");
-            entity.Property(e => e.MontoTraspaso).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Salario).HasColumnType("decimal(10, 2)");
+            entity.ToTable("contrato");
 
-            entity.HasOne(d => d.Equipo).WithMany(p => p.Contrato)
-            .HasForeignKey(d => d.EquipoId)
-            .HasConstraintName("FK_Equipo_Contrato");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.FechaContrato)
+            .HasColumnType("date")
+            .HasColumnName("fecha_contrato");
+            entity.Property(e => e.SalarioJugador)
+            .HasColumnType("decimal(10, 2)")
+            .HasColumnName("salario_jugador");
+            entity.Property(e => e.UsuEquipoId).HasColumnName("usu_equipo_id");
+            entity.Property(e => e.UsuJugadorId).HasColumnName("usu_jugador_id");
 
-            entity.HasOne(d => d.Jugador).WithMany(p => p.Contrato)
-            .HasForeignKey(d => d.JugadorId)
-            .HasConstraintName("FK_Jugador_Contrato");
+            entity.HasOne(d => d.UsuEquipo).WithMany(p => p.ContratoUsuEquipo)
+            .HasForeignKey(d => d.UsuEquipoId)
+            .HasConstraintName("FK__contrato__usu_eq__30C33EC3");
+
+            entity.HasOne(d => d.UsuJugador).WithMany(p => p.ContratoUsuJugador)
+            .HasForeignKey(d => d.UsuJugadorId)
+            .HasConstraintName("FK__contrato__usu_ju__31B762FC");
 
             OnConfigurePartial(entity);
         }

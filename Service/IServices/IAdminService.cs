@@ -16,5 +16,10 @@ namespace Service.IServices
         EquipoDTO GetEquipoById(string nombre);
         void DeleteEquipo(int  id);
         List<UsuarioDTO> GetUsuarios();
+        string CrearContrato(ContratoDTO contrato);
+        List<ContratoDTO> ContratoList();
+        List<PostulacionDTO> GetListaPostulacion();
+        void DeletePostulacion(int id);
+        void DeleteContrato(int id);
     }
 }

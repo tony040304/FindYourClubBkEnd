@@ -11,20 +11,24 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Postulacion> entity)
         {
-            entity.HasKey(e => e.PostulacionId).HasName("PK__Postulac__5F6D89499F12E94A");
+            entity.HasKey(e => e.Idpostulacion).HasName("PK__postulac__0C7D09DCB613370C");
 
-            entity.Property(e => e.PostulacionId).HasColumnName("PostulacionID");
-            entity.Property(e => e.FechaPostulacion).HasColumnType("date");
-            entity.Property(e => e.Idequipo).HasColumnName("IDEquipo");
-            entity.Property(e => e.Idjugador).HasColumnName("IDJugador");
+            entity.ToTable("postulacion");
 
-            entity.HasOne(d => d.IdequipoNavigation).WithMany(p => p.Postulacion)
-            .HasForeignKey(d => d.Idequipo)
-            .HasConstraintName("FK_Equipo_Postulacion");
+            entity.Property(e => e.Idpostulacion).HasColumnName("idpostulacion");
+            entity.Property(e => e.FechaPostulacion)
+            .HasColumnType("date")
+            .HasColumnName("fecha_postulacion");
+            entity.Property(e => e.UsuEquipoId).HasColumnName("usu_equipo_id");
+            entity.Property(e => e.UsuJugadorId).HasColumnName("usu_jugador_id");
 
-            entity.HasOne(d => d.IdjugadorNavigation).WithMany(p => p.Postulacion)
-            .HasForeignKey(d => d.Idjugador)
-            .HasConstraintName("FK_Jugador_Postulacion");
+            entity.HasOne(d => d.UsuEquipo).WithMany(p => p.PostulacionUsuEquipo)
+            .HasForeignKey(d => d.UsuEquipoId)
+            .HasConstraintName("FK__postulaci__usu_e__3493CFA7");
+
+            entity.HasOne(d => d.UsuJugador).WithMany(p => p.PostulacionUsuJugador)
+            .HasForeignKey(d => d.UsuJugadorId)
+            .HasConstraintName("FK__postulaci__usu_j__3587F3E0");
 
             OnConfigurePartial(entity);
         }

@@ -53,8 +53,55 @@ namespace Service.Services
 
         public List<UsuarioDTO> GetUsuarios()
         {
-            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { UsuarioId = s.UsuarioId, Nombre = s.Nombre, Email = s.Nombre, Rol = (int)s.Rol }).ToList();
+            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { UsuarioId = s.UsuarioId, Nombre = s.Nombre, Email = s.Nombre, Rol = (int)s.Rol, Contrasenia = s.Contrasenia }).ToList();
         }
 
+        public string CrearContrato(ContratoDTO contrato)
+        {
+            Contrato? contrato1 = _context.Contrato.FirstOrDefault(x => x.Id == contrato.Id);
+
+            if (contrato1 != null)
+            {
+                return "Contrato existente";
+            }
+
+
+            if (contrato.UsuEquipoId == null || contrato.UsuJugadorId == null)
+            {
+                return "Falta id equipo o id jugador";
+            }
+
+            _context.Contrato.Add(new Contrato()
+            {
+                UsuEquipoId = contrato.UsuEquipoId,
+                UsuJugadorId = contrato.UsuJugadorId,
+                SalarioJugador = contrato.SalarioJugador,
+                FechaContrato = contrato.FechaContrato
+            });
+            _context.SaveChanges();
+
+            string lastContrato = _context.Contrato.OrderBy(x => x.Id).Last().ToString();
+
+            return lastContrato;
+        }
+
+        public List<ContratoDTO> ContratoList()
+        {
+            return _context.Contrato.ToList().Select(s => new ContratoDTO() { UsuEquipoId = s.UsuEquipoId, UsuJugadorId = s.UsuJugadorId, FechaContrato = s.FechaContrato, SalarioJugador = s.SalarioJugador, Id = s.Id }).ToList();
+        }
+        public List<PostulacionDTO> GetListaPostulacion()
+        {
+            return _context.Postulacion.ToList().Select(s => new PostulacionDTO() { UsuEquipoId = s.UsuEquipoId, UsuJugadorId = s.UsuJugadorId, FechaPostulacion = s.FechaPostulacion, Idpostulacion = s.Idpostulacion }).ToList();
+        }
+        public void DeletePostulacion(int id)
+        {
+            _context.Postulacion.Remove(_context.Postulacion.Single(f => f.Idpostulacion == id));
+            _context.SaveChanges();
+        }
+        public void DeleteContrato(int id)
+        {
+            _context.Contrato.Remove(_context.Contrato.Single(f => f.Id == id));
+            _context.SaveChanges();
+        }
     }
 }

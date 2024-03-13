@@ -20,7 +20,7 @@ namespace Service.Services
 
         public List<EquipoDTO> GetListaEquipo()
         {
-            return _context.Equipo.ToList().Select(s => new EquipoDTO() { UsuarioId = s.UsuarioId, EquipoId = s.EquipoId, Nombre = s.Nombre, Descripcion = s.Descripcion }).ToList();
+            return _context.Equipo.ToList().Select(s => new EquipoDTO() { UsuarioId = s.UsuarioId, EquipoId = s.EquipoId, Nombre = s.Nombre, Descripcion = s.Descripcion, Liga = s.Liga, PosiciónRequerida = s.PosiciónRequerida }).ToList();
         }
     }
 }

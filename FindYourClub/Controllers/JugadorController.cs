@@ -6,12 +6,13 @@ using Model.DTOS;
 using Model.Models;
 using Model.ViewModel;
 using Service.IServices;
+using System.Security.Claims;
 
 namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "2")]
+    //[Authorize(Roles = "2")]
     public class JugadorController : ControllerBase
     {
         private readonly IJugadorServices _services;

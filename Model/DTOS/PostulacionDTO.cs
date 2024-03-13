@@ -8,12 +8,14 @@ namespace Model.DTOS
 {
     public class PostulacionDTO
     {
-        public int PostulacionId { get; set; }
+        public int Idpostulacion { get; set; }
 
         public DateTime? FechaPostulacion { get; set; }
 
-        public int? Idjugador { get; set; }
+        public int? UsuEquipoId { get; set; }
 
-        public int? Idequipo { get; set; }
+        public int? UsuJugadorId { get; set; }
+
+
     }
 }

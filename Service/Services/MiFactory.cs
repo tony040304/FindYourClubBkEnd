@@ -5,6 +5,7 @@ using Service.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,9 @@ namespace Service.Services
             {
                 return "ingrese nombre";
             }
+
+            
+
 
             Jugador? jugador1 = context.Jugador.FirstOrDefault(x => x.UsuarioId == jugador.UsuarioId);
 
@@ -71,8 +75,9 @@ namespace Service.Services
                 EquipoId = equipo.EquipoId,
                 UsuarioId = equipo.UsuarioId,
                 Nombre = equipo.Nombre,
-                Descripcion = equipo.Descripcion,
-                PosiciónRequerida = equipo.PosiciónRequerida
+                Liga = equipo.Liga,
+                PosiciónRequerida = equipo.PosiciónRequerida,
+                Descripcion = equipo.Descripcion
             });
             context.SaveChanges();
 

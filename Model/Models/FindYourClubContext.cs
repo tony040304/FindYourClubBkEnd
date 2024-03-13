@@ -26,7 +26,11 @@ public partial class FindYourClubContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(FindYourClubContext).Assembly);
+        modelBuilder.ApplyConfiguration(new Configurations.ContratoConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.EquipoConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.JugadorConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PostulacionConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.UsuariosConfiguration());
 
         OnModelCreatingPartial(modelBuilder);
     }

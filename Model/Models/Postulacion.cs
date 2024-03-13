@@ -7,15 +7,15 @@ namespace Model.Models;
 
 public partial class Postulacion
 {
-    public int PostulacionId { get; set; }
+    public int Idpostulacion { get; set; }
 
     public DateTime? FechaPostulacion { get; set; }
 
-    public int? Idjugador { get; set; }
+    public int? UsuEquipoId { get; set; }
 
-    public int? Idequipo { get; set; }
+    public int? UsuJugadorId { get; set; }
 
-    public virtual Equipo IdequipoNavigation { get; set; }
+    public virtual Usuarios UsuEquipo { get; set; }
 
-    public virtual Jugador IdjugadorNavigation { get; set; }
+    public virtual Usuarios UsuJugador { get; set; }
 }

@@ -16,6 +16,7 @@ namespace Service.Mapping
             {
                 cfg.AddProfile<JugadorProfile>();
                 cfg.AddProfile<EquipoProfile>();
+                cfg.AddProfile<PostulacionProfile>();
             });
 
             IMapper mapper = mapperConfiguration.CreateMapper();

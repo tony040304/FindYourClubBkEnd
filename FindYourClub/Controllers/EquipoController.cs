@@ -8,19 +8,17 @@ namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "3")]
+    //[Authorize(Roles = "3")]
     public class EquipoController : ControllerBase
     {
-        private readonly IEquipoService _services;
-        private readonly IFactoryMethEquipo _factoryMethEquipo;
+        private readonly IEquipService _Equipo;
         private readonly IFactory _factory;
         private readonly ILogger<EquipoController> _logger;
 
-        public EquipoController(IEquipoService services, ILogger<EquipoController> logger, IFactoryMethEquipo factoryMethEquipo, IFactory factory)
+        public EquipoController(ILogger<EquipoController> logger, IEquipService Equipo, IFactory factory)
         {
-            _services = services;
             _logger = logger;
-            _factoryMethEquipo = factoryMethEquipo;
+            _Equipo = Equipo;
             _factory = factory;
         }
 
@@ -50,7 +48,7 @@ namespace FindYourClub.Controllers
             string response = string.Empty;
             try
             {
-                response = _factoryMethEquipo.CrearContrato(contrato);
+                response = _Equipo.CrearContrato(contrato);
                 if (response == "Falta id equipo o id jugador" || response == "Contrato existente")
                     return BadRequest(response);
 
@@ -63,15 +61,15 @@ namespace FindYourClub.Controllers
 
             return Ok(response);
         }
-        [HttpGet("GetContratoListaxEquipo")]
-        public ActionResult<List<ContratoDTO>> ContratoList()
+        [HttpGet("GetContratoListaxEquipo/{id}")]
+        public ActionResult<ContratoDTO> ContratoList([FromRoute] int id)
         {
             try
             {
-                var response = _factoryMethEquipo.ContratoList();
-                if (response.Count == 0)
+                var response = _Equipo.ContratoList(id);
+                if (response == null)
                 {
-                    NotFound("No hay usuarios");
+                    NotFound($"No hay Postulaciones con el equipo(id): {id}");
                 }
                 return Ok(response);
             }
@@ -82,13 +80,13 @@ namespace FindYourClub.Controllers
             }
         }
 
-        [HttpGet("GetPostulacionListaxEquipo")]
-        public ActionResult<List<PostulacionDTO>> GetListaPostulacion()
+        [HttpGet("GetPostulacionListaxEquipo/{UsuEquipoId}")]
+        public ActionResult GetPostulacionbyTeam([FromRoute] int UsuEquipoId)
         {
             try
             {
-                var response = _factoryMethEquipo.GetListaPostulacion();
-                if (response.Count == 0)
+                var response = _Equipo.GetPostulacionbyTeam(UsuEquipoId);
+                if (response == null)
                 {
                     NotFound("No hay usuarios");
                 }
@@ -105,7 +103,7 @@ namespace FindYourClub.Controllers
         {
             try
             {
-                _factoryMethEquipo.DeletePostulacion(id);
+                _Equipo.DeletePostulacion(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -119,7 +117,7 @@ namespace FindYourClub.Controllers
         {
             try
             {
-                _factoryMethEquipo.DeleteContrato(id);
+                _Equipo.DeleteContrato(id);
                 return Ok();
             }
             catch (Exception ex)

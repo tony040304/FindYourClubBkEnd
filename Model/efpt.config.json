@@ -16,7 +16,7 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Contrato]",
+         "Name": "[dbo].[contrato]",
          "ObjectType": 0
       },
       {
@@ -28,7 +28,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Postulacion]",
+         "Name": "[dbo].[postulacion]",
          "ObjectType": 0
       },
       {
@@ -42,6 +42,7 @@
    "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": true,
+   "UseDecimalDataAnnotationForSprocResult": true,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,

@@ -19,11 +19,5 @@ public partial class Jugador
 
     public int JugadorId { get; set; }
 
-    public virtual ICollection<Contrato> Contrato { get; set; } = new List<Contrato>();
-
-    public virtual ICollection<Equipo> Equipo { get; set; } = new List<Equipo>();
-
-    public virtual ICollection<Postulacion> Postulacion { get; set; } = new List<Postulacion>();
-
     public virtual Usuarios Usuario { get; set; }
 }
