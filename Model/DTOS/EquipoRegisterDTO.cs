@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace Model.DTOS
 {
-    public class JugadorDTO
+    public class EquipoRegisterDTO
     {
-        public int JugadorId { get; set; }
-
-        public int? UsuarioId { get; set; }
-
         public string Nombre { get; set; }
-
-        public string Apellido { get; set; }
+        public string Password { get; set; }
 
         public string Descripcion { get; set; }
 
-        public string Posicion { get; set; }
+        public string PosiciónRequerida { get; set; }
+
+        public string Liga { get; set; }
     }
 }

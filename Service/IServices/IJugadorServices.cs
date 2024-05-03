@@ -10,8 +10,13 @@ namespace Service.IServices
 {
     public interface IJugadorServices
     {
-
-        string CrearPostulaciones(PostulacionDTO postu);
+        List<EquipoViewModel> GetEquipo(string id);
+        string CrearPostulaciones(PostulacionViewModel postu, string id);
+        List<TeamPostulacionDTO> MisPostulaciones(string id);
+        List<ContratoJugadorDTO> MiContrato(string id);
+        string ChangePassword(ChangePasswordViewModel password, string id);
+        void DeletePostulacion(int id);
+        void DeleteContrato(int id);
 
     }
 }

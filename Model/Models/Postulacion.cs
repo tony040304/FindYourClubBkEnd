@@ -11,11 +11,11 @@ public partial class Postulacion
 
     public DateTime? FechaPostulacion { get; set; }
 
-    public int? UsuEquipoId { get; set; }
+    public int? PostuJugadorId { get; set; }
 
-    public int? UsuJugadorId { get; set; }
+    public int? PostuEquipoId { get; set; }
 
-    public virtual Usuarios UsuEquipo { get; set; }
+    public virtual Equipo PostuEquipo { get; set; }
 
-    public virtual Usuarios UsuJugador { get; set; }
+    public virtual Usuarios PostuJugador { get; set; }
 }

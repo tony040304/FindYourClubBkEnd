@@ -32,7 +32,7 @@ namespace FindYourClub.Controllers
                 response = _service.Register(User);
                 if (response == "ingrese un usuario" || response == "Usuario existente")   
                     return BadRequest(response);
-                
+                return Ok(response);
             }
             catch(Exception ex)
             {
@@ -40,7 +40,6 @@ namespace FindYourClub.Controllers
                 return BadRequest($"{ex.Message}");
             }
 
-            return Ok(response);
         }
 
         [HttpPost("login")]

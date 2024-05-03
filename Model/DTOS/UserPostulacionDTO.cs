@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Model.DTOS
 {
-    public class JugadorPostulacionDTO
+    public class UserPostulacionDTO
     {
-        public string NombreJugador { get; set; } = string.Empty;
-        public string ApellidoJugador { get; set; } = string.Empty;
+        public int idUser { get; set; }
+        public string NombreApellido { get; set; }
         public string PosisionJugador { get; set; } = string.Empty;
         public DateTime? FechaPostulaciones { get; set; }
         public int idPostulacion { get; set; }
-        public int? UsuJugadorId { get; set; }
     }
 }

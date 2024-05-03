@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.DTOS
 {
-    public class ContratoDTO
+    public class ContratoEquipoDTO
     {
         public int Id { get; set; }
 
@@ -14,8 +14,8 @@ namespace Model.DTOS
 
         public DateTime? FechaContrato { get; set; }
 
-        public int? ContEquipoid { get; set; }
+        public string NombreApellido { get; set; }
 
-        public int? ContUserid { get; set; }
+        public string Posicion { get; set; }
     }
 }

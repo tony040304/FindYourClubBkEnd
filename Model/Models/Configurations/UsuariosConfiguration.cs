@@ -11,12 +11,19 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Usuarios> entity)
         {
-            entity.HasKey(e => e.UsuarioId).HasName("PK__Usuarios__2B3DE7987F300215");
+            entity.HasKey(e => e.UsuarioId).HasName("PK__Usuarios__2B3DE798BFBD0921");
 
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
             entity.Property(e => e.Contrasenia).HasMaxLength(255);
             entity.Property(e => e.Email).HasMaxLength(255);
-            entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.Property(e => e.FechaNacimiento).HasColumnType("date");
+            entity.Property(e => e.NombreApellido)
+            .HasMaxLength(100)
+            .HasColumnName("Nombre_Apellido");
+            entity.Property(e => e.Posicion)
+            .HasMaxLength(10)
+            .IsFixedLength();
+            entity.Property(e => e.Rol).HasDefaultValueSql("((2))");
 
             OnConfigurePartial(entity);
         }

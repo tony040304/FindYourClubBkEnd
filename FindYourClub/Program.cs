@@ -5,21 +5,21 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using Model.Helper;
 using Model.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+builder.Services.AddDbContext<FindYourClubContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSpaStaticFiles(configuration => {
     configuration.RootPath = "clientapp/dist";
 });
 
-builder.Services.Configure<AppSttings>(appSettingsSection);
 
-var appSettings = appSettingsSection.Get<AppSttings>();
+
 
 //Jwt configuration starts here
 var jwtIssuer = builder.Configuration.GetSection("AppSettings:Issuer").Get<string>();
@@ -46,22 +46,40 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization(option =>
 {
     option.AddPolicy("Admin", policy => policy.RequireRole("1"));
-    option.AddPolicy("Jugador", policy => policy.RequireRole("2"));
+    option.AddPolicy("User", policy => policy.RequireRole("2"));
     option.AddPolicy("Equipo", policy => policy.RequireRole("3"));
 });
 //Jwt configuration ends here
 
 
-
-// Add services to the container.
-builder.Services.AddDbContext<FindYourClubContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 CompisteRoot.DependencyInjection(builder);
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(setupAction =>
+{
+    setupAction.AddSecurityDefinition("FindYourClub", new OpenApiSecurityScheme() //Esto va a permitir usar swagger con el token.
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Description = "Acá pegar el token generado al loguearse."
+    });
+
+    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "FindYourClub" } //Tiene que coincidir con el id seteado arriba en la definición
+                }, new List<string>() }
+    });
+});
 
 var prov = builder.Services.BuildServiceProvider();
 var config = prov.GetRequiredService<IConfiguration>();

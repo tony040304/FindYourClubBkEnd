@@ -9,8 +9,6 @@ public partial class Equipo
 {
     public int EquipoId { get; set; }
 
-    public int? UsuarioId { get; set; }
-
     public string Nombre { get; set; }
 
     public string Descripcion { get; set; }
@@ -19,5 +17,11 @@ public partial class Equipo
 
     public string Liga { get; set; }
 
-    public virtual Usuarios Usuario { get; set; }
+    public int? RolEquipo { get; set; }
+
+    public string Password { get; set; }
+
+    public virtual ICollection<Contrato> Contrato { get; set; } = new List<Contrato>();
+
+    public virtual ICollection<Postulacion> Postulacion { get; set; } = new List<Postulacion>();
 }

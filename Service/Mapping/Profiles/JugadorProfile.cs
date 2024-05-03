@@ -13,11 +13,11 @@ namespace Service.Mapping.Profiles
     {
         public JugadorProfile()
         {
-            CreateMap<Jugador, JugadorDTO>()
-                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre));
+            CreateMap<Usuarios, UsuarioDTO>()
+                .ForMember(dest => dest.NombreApellido, opt => opt.MapFrom(src => src.NombreApellido));
 
-            CreateMap<List<Jugador>, List<JugadorDTO>>()
-                .ConvertUsing(src => src.Select(e => new JugadorDTO { Nombre = e.Nombre, JugadorId = e.JugadorId }).ToList());
+            CreateMap<List<Usuarios>, List<UsuarioDTO>>()
+                .ConvertUsing(src => src.Select(e => new UsuarioDTO { NombreApellido = e.NombreApellido, UsuarioId = e.UsuarioId, Email = e.Email, Posicion = e.Posicion }).ToList());
 
         }
     }

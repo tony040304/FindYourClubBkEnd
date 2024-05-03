@@ -17,7 +17,7 @@ namespace Service.Mapping.Profiles
                 .ForMember(dest => dest.Idpostulacion, opt => opt.MapFrom(src => src.Idpostulacion));
 
             CreateMap<List<Postulacion>, List<PostulacionDTO>>()
-                .ConvertUsing(src => src.Select(e => new PostulacionDTO { Idpostulacion = e.Idpostulacion }).ToList());
+                .ConvertUsing(src => src.Select(e => new PostulacionDTO { Idpostulacion = e.Idpostulacion, FechaPostulacion = e.FechaPostulacion, PostuEquipoId = e.PostuEquipoId, PostuJugadorId = e.PostuJugadorId }).ToList());
         }
     }
 }

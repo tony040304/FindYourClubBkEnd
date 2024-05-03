@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Model.DTOS;
 using Model.Models;
+using Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,10 @@ namespace Service.Mapping.Profiles
                 .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre));
 
             CreateMap<List<Equipo>, List<EquipoDTO>>()
-                .ConvertUsing(src => src.Select(e => new EquipoDTO { Nombre = e.Nombre, EquipoId = e.EquipoId }).ToList());
+                .ConvertUsing(src => src.Select(e => new EquipoDTO { Nombre = e.Nombre, EquipoId = e.EquipoId, Descripcion = e.Descripcion, Liga = e.Liga, PosiciónRequerida = e.PosiciónRequerida, Password = e.Password }).ToList());
+
+            CreateMap<List<Equipo>, List<EquipoViewModel>>()
+                .ConvertUsing(src => src.Select(e => new EquipoViewModel { Nombre = e.Nombre,  Descripcion = e.Descripcion, Liga = e.Liga, PosiciónRequerida = e.PosiciónRequerida }).ToList());
 
         }
     }

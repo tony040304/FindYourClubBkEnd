@@ -12,9 +12,9 @@ namespace Model.DTOS
 
         public DateTime? FechaPostulacion { get; set; }
 
-        public int? UsuEquipoId { get; set; }
+        public int? PostuJugadorId { get; set; }
 
-        public int? UsuJugadorId { get; set; }
+        public int? PostuEquipoId { get; set; }
 
 
     }

@@ -9,23 +9,19 @@ public partial class Usuarios
 {
     public int UsuarioId { get; set; }
 
-    public string Nombre { get; set; }
+    public string NombreApellido { get; set; }
 
     public string Contrasenia { get; set; }
 
-    public int? Rol { get; set; }
-
     public string Email { get; set; }
 
-    public virtual ICollection<Contrato> ContratoUsuEquipo { get; set; } = new List<Contrato>();
+    public string Posicion { get; set; }
 
-    public virtual ICollection<Contrato> ContratoUsuJugador { get; set; } = new List<Contrato>();
+    public int? Rol { get; set; }
 
-    public virtual ICollection<Equipo> Equipo { get; set; } = new List<Equipo>();
+    public DateTime? FechaNacimiento { get; set; }
 
-    public virtual ICollection<Jugador> Jugador { get; set; } = new List<Jugador>();
+    public virtual ICollection<Contrato> Contrato { get; set; } = new List<Contrato>();
 
-    public virtual ICollection<Postulacion> PostulacionUsuEquipo { get; set; } = new List<Postulacion>();
-
-    public virtual ICollection<Postulacion> PostulacionUsuJugador { get; set; } = new List<Postulacion>();
+    public virtual ICollection<Postulacion> Postulacion { get; set; } = new List<Postulacion>();
 }

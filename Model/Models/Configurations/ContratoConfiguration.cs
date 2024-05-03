@@ -11,27 +11,27 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Contrato> entity)
         {
-            entity.HasKey(e => e.Id).HasName("PK__contrato__3213E83FD5201CCE");
+            entity.HasKey(e => e.Id).HasName("PK__contrato__3213E83FB48D71ED");
 
             entity.ToTable("contrato");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ContEquipoid).HasColumnName("Cont_Equipoid");
+            entity.Property(e => e.ContUserid).HasColumnName("Cont_Userid");
             entity.Property(e => e.FechaContrato)
             .HasColumnType("date")
             .HasColumnName("fecha_contrato");
             entity.Property(e => e.SalarioJugador)
             .HasColumnType("decimal(10, 2)")
             .HasColumnName("salario_jugador");
-            entity.Property(e => e.UsuEquipoId).HasColumnName("usu_equipo_id");
-            entity.Property(e => e.UsuJugadorId).HasColumnName("usu_jugador_id");
 
-            entity.HasOne(d => d.UsuEquipo).WithMany(p => p.ContratoUsuEquipo)
-            .HasForeignKey(d => d.UsuEquipoId)
-            .HasConstraintName("FK__contrato__usu_eq__30C33EC3");
+            entity.HasOne(d => d.ContEquipo).WithMany(p => p.Contrato)
+            .HasForeignKey(d => d.ContEquipoid)
+            .HasConstraintName("FK_contrato_Equipo");
 
-            entity.HasOne(d => d.UsuJugador).WithMany(p => p.ContratoUsuJugador)
-            .HasForeignKey(d => d.UsuJugadorId)
-            .HasConstraintName("FK__contrato__usu_ju__31B762FC");
+            entity.HasOne(d => d.ContUser).WithMany(p => p.Contrato)
+            .HasForeignKey(d => d.ContUserid)
+            .HasConstraintName("FK_contrato_Usuarios");
 
             OnConfigurePartial(entity);
         }

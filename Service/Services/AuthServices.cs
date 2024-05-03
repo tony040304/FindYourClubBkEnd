@@ -31,24 +31,27 @@ namespace Service.Services
 
         public string Register(UsuarioDTO User)
         {
-            if (string.IsNullOrEmpty(User.Nombre))
+            if (string.IsNullOrEmpty(User.NombreApellido))
             {
                 return "Ingrese un usuario";
             }
 
-            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.Nombre == User.Nombre);
 
-            if (user != null)
+            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido == User.NombreApellido.Trim().ToLower());
+            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre == User.NombreApellido.Trim().ToLower()); 
+
+            if (user != null || equipo != null)
             {
                 return "Usuario existente";
             }
 
             _context.Usuarios.Add(new Usuarios()
             {
-                Nombre = User.Nombre,
+                NombreApellido = User.NombreApellido,
                 Contrasenia = User.Contrasenia,
-                Rol = User.Rol,
-                Email = User.Email
+                Posicion = User.Posicion,
+                Email = User.Email,
+                FechaNacimiento = User.FechaNacimiento
             });
             _context.SaveChanges();
 
@@ -59,14 +62,20 @@ namespace Service.Services
 
         public string Login(AuthViewModel User)
         {
-            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.Nombre == User.Nombre && x.Contrasenia == User.Password);
+            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido == User.Nombre && x.Contrasenia == User.Password);
 
-            if (user == null)
+            if (user != null)
             {
-                return string.Empty;
+                return GetToken(user);
             }
 
-            return GetToken(user);
+            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre == User.Nombre && x.Password == User.Password);
+
+            if (equipo != null)
+            {
+                return GetToken(equipo);
+            }
+            return string.Empty;
         }
 
         private string GetToken(Usuarios user)
@@ -75,9 +84,9 @@ namespace Service.Services
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claimsForToken = new List<Claim>();
-            claimsForToken.Add(new Claim("sub", user.Nombre));
-            claimsForToken.Add(new Claim("given_name", user.Nombre));
-            claimsForToken.Add(new Claim("email", user.Email));
+            claimsForToken.Add(new Claim("NameIdentifier", user.UsuarioId.ToString()));
+            claimsForToken.Add(new Claim("Nombre", user.NombreApellido));
+            claimsForToken.Add(new Claim("Email", user.Email));
             claimsForToken.Add(new Claim("role", user.Rol.ToString()));
 
             var Sectoken = new JwtSecurityToken(_settings["AppSettings:Issuer"],
@@ -88,22 +97,28 @@ namespace Service.Services
 
             var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
             return token;
-            //var tokenHandler = new JwtSecurityTokenHandler();
-            //var key = Encoding.ASCII.GetBytes(_sttings.key);
-            //var tokenDescriptor = new SecurityTokenDescriptor()
-            //{
-            //    Subject = new ClaimsIdentity(
-            //        new Claim[]
-            //        {
-            //            new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()),
-            //            new Claim(ClaimTypes.Name, user.Nombre),     
-            //            new Claim(ClaimTypes.Role, user.Rol.ToString())
-            //        }),
-            //    Expires = DateTime.UtcNow.AddHours(1),
-            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            //};
+            
+        }
+        private string GetToken(Equipo equipo)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings["AppSettings:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            //return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+            var claimsForToken = new List<Claim>();
+            claimsForToken.Add(new Claim("NameIdentifier", equipo.EquipoId.ToString()));
+            claimsForToken.Add(new Claim("Nombre", equipo.Nombre));
+            claimsForToken.Add(new Claim("Liga", equipo.Liga));
+            claimsForToken.Add(new Claim("role", equipo.RolEquipo.ToString()));
+
+            var Sectoken = new JwtSecurityToken(_settings["AppSettings:Issuer"],
+              _settings["AppSettings:Issuer"],
+              claimsForToken,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
+            return token;
+
         }
     }
 }

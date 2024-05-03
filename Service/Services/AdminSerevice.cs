@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Providers.Entities;
 
 namespace Service.Services
 {
@@ -23,24 +24,50 @@ namespace Service.Services
             _mapper = AutoMapperConfig.Configure();
         }
 
-        public List<JugadorDTO> GetListaJugadores()
+        public List<UsuarioDTO> GetListaJugadores()
         {
-            return _context.Jugador.ToList().Select(s => new JugadorDTO() { UsuarioId = s.UsuarioId, JugadorId = s.JugadorId, Nombre = s.Nombre, Apellido = s.Apellido, Descripcion = s.Descripcion, Posicion = s.Posicion }).ToList();
+            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { UsuarioId = s.UsuarioId, NombreApellido = s.NombreApellido, Posicion = s.Posicion, Email = s.Email }).ToList();
         }
 
-        public JugadorDTO GetJugadorByNombre(string nombre)
+        public UsuarioDTO GetJugadorByNombre(string nombre)
         {
-            return _mapper.Map<JugadorDTO>(_context.Jugador.Where(e => e.Nombre == nombre).First());
+            return _mapper.Map<UsuarioDTO>(_context.Usuarios.Where(e => e.NombreApellido == nombre).First());
         }
 
         public void DeleteJugador(int id)
         {
-            _context.Jugador.Remove(_context.Jugador.Single(f => f.JugadorId == id));
+            _context.Usuarios.Remove(_context.Usuarios.Single(f => f.UsuarioId == id));
             _context.SaveChanges();
         }
+        public string CreateEquipo(EquipoRegisterDTO equipo)
+        {
+            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido == equipo.Nombre.Trim().ToLower());
+            Equipo? equipo1 = _context.Equipo.FirstOrDefault(x => x.Nombre == equipo.Nombre.Trim().ToLower());
 
+            if (user != null || equipo1 != null)
+            {
+                return "Equipo existente";
+            }
+            _context.Equipo.Add(new Equipo()
+            {
+                Nombre = equipo.Nombre,
+                Descripcion = equipo.Descripcion,
+                Liga = equipo.Liga,
+                PosiciónRequerida = equipo.PosiciónRequerida,
+                Password = equipo.Password
+            });
+            _context.SaveChanges();
 
-        public EquipoDTO GetEquipoById(string nombre)
+            var response = _context.Equipo.OrderBy(c=>c.EquipoId).Last();
+            return response.ToString();
+        }
+
+        public List<EquipoDTO> GetEquipo()
+        {
+            return _mapper.Map<List<EquipoDTO>>(_context.Equipo.ToList());
+        }
+
+        public EquipoDTO GetEquipoByName(string nombre)
         {
             return _mapper.Map<EquipoDTO>(_context.Equipo.Where(e => e.Nombre == nombre).First());
         }
@@ -51,47 +78,46 @@ namespace Service.Services
             _context.SaveChanges();
         }
 
-        public List<UsuarioDTO> GetUsuarios()
-        {
-            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { UsuarioId = s.UsuarioId, Nombre = s.Nombre, Email = s.Nombre, Rol = (int)s.Rol, Contrasenia = s.Contrasenia }).ToList();
-        }
-
-        public string CrearContrato(ContratoDTO contrato)
-        {
-            Contrato? contrato1 = _context.Contrato.FirstOrDefault(x => x.Id == contrato.Id);
-
-            if (contrato1 != null)
-            {
-                return "Contrato existente";
-            }
-
-
-            if (contrato.UsuEquipoId == null || contrato.UsuJugadorId == null)
-            {
-                return "Falta id equipo o id jugador";
-            }
-
-            _context.Contrato.Add(new Contrato()
-            {
-                UsuEquipoId = contrato.UsuEquipoId,
-                UsuJugadorId = contrato.UsuJugadorId,
-                SalarioJugador = contrato.SalarioJugador,
-                FechaContrato = contrato.FechaContrato
-            });
-            _context.SaveChanges();
-
-            string lastContrato = _context.Contrato.OrderBy(x => x.Id).Last().ToString();
-
-            return lastContrato;
-        }
-
         public List<ContratoDTO> ContratoList()
         {
-            return _context.Contrato.ToList().Select(s => new ContratoDTO() { UsuEquipoId = s.UsuEquipoId, UsuJugadorId = s.UsuJugadorId, FechaContrato = s.FechaContrato, SalarioJugador = s.SalarioJugador, Id = s.Id }).ToList();
+            return _context.Contrato.ToList().Select(s => new ContratoDTO() { ContEquipoid = s.ContEquipoid, ContUserid = s.ContUserid, FechaContrato = s.FechaContrato, SalarioJugador = s.SalarioJugador, Id = s.Id }).ToList();
+        }
+        public List<ContratoDTO> GetContratoByName(string nombre)
+        {
+            var resultado = from c in _context.Contrato
+                            join e in _context.Equipo on c.ContEquipoid equals e.EquipoId
+                            join u in _context.Usuarios on c.ContUserid equals u.UsuarioId
+                            where e.Nombre == nombre || u.NombreApellido == nombre
+                            select new ContratoDTO{
+                                Id = c.Id,
+                                FechaContrato = c.FechaContrato,
+                                SalarioJugador = c.SalarioJugador,
+                                ContEquipoid = c.ContEquipoid,
+                                ContUserid= c.ContUserid,
+                            };
+
+            return resultado.ToList();
         }
         public List<PostulacionDTO> GetListaPostulacion()
         {
-            return _context.Postulacion.ToList().Select(s => new PostulacionDTO() { UsuEquipoId = s.UsuEquipoId, UsuJugadorId = s.UsuJugadorId, FechaPostulacion = s.FechaPostulacion, Idpostulacion = s.Idpostulacion }).ToList();
+            return _context.Postulacion.ToList().Select(s => new PostulacionDTO() { PostuEquipoId = s.PostuEquipoId, PostuJugadorId = s.PostuJugadorId, FechaPostulacion = s.FechaPostulacion, Idpostulacion = s.Idpostulacion }).ToList();
+        }
+        public List<PostulacionDTO> GetPostulacionByName(string nombre)
+        {
+            var contrato = from c in _context.Postulacion
+                           join e in _context.Equipo
+                           on c.PostuEquipoId equals e.EquipoId
+                           join u in _context.Usuarios
+                           on c.PostuJugadorId equals u.UsuarioId
+                           where e.Nombre == nombre || u.NombreApellido == nombre
+                           select new PostulacionDTO
+                           {
+                               Idpostulacion = c.Idpostulacion,
+                               FechaPostulacion = c.FechaPostulacion,
+                               PostuEquipoId = c.PostuEquipoId,
+                               PostuJugadorId = c.PostuJugadorId
+                           };
+            return contrato.ToList();
         }
         public void DeletePostulacion(int id)
         {

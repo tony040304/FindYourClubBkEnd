@@ -9,14 +9,13 @@ namespace Model.DTOS
     public class UsuarioDTO
     {
         public int UsuarioId { get; set; }
-        public string Nombre { get; set; }
-
+        public string NombreApellido { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
         public string Contrasenia { get; set; }
-
-        public int Rol { get; set; }
 
         public string Email { get; set; }
 
+        public string Posicion { get; set; }
 
     }
 }

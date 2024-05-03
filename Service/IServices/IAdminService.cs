@@ -9,16 +9,17 @@ namespace Service.IServices
 {
     public interface IAdminService
     {
-        List<JugadorDTO> GetListaJugadores();
-        JugadorDTO GetJugadorByNombre(string nombre);
+        List<UsuarioDTO> GetListaJugadores();
+        UsuarioDTO GetJugadorByNombre(string nombre);
         void DeleteJugador(int id);
-
-        EquipoDTO GetEquipoById(string nombre);
+        string CreateEquipo(EquipoRegisterDTO equipo);
+        List<EquipoDTO> GetEquipo();
+        EquipoDTO GetEquipoByName(string nombre);
         void DeleteEquipo(int  id);
-        List<UsuarioDTO> GetUsuarios();
-        string CrearContrato(ContratoDTO contrato);
         List<ContratoDTO> ContratoList();
+        List<ContratoDTO> GetContratoByName(string nombre);              
         List<PostulacionDTO> GetListaPostulacion();
+        List<PostulacionDTO> GetPostulacionByName(string nombre);
         void DeletePostulacion(int id);
         void DeleteContrato(int id);
     }

@@ -11,16 +11,15 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Equipo> entity)
         {
-            entity.HasKey(e => e.EquipoId).HasName("PK__Equipo__DE8A0BFFBC2EB200");
+            entity.HasKey(e => e.EquipoId).HasName("PK__Equipo__DE8A0BFFB5FB11E1");
 
             entity.Property(e => e.EquipoId).HasColumnName("EquipoID");
             entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.Property(e => e.Password)
+            .HasMaxLength(15)
+            .IsFixedLength();
             entity.Property(e => e.PosiciónRequerida).HasMaxLength(100);
-            entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
-
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Equipo)
-            .HasForeignKey(d => d.UsuarioId)
-            .HasConstraintName("FK_Usuario_Equipo");
+            entity.Property(e => e.RolEquipo).HasDefaultValueSql("((3))");
 
             OnConfigurePartial(entity);
         }

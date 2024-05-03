@@ -18,8 +18,6 @@ public partial class FindYourClubContext : DbContext
 
     public virtual DbSet<Equipo> Equipo { get; set; }
 
-    public virtual DbSet<Jugador> Jugador { get; set; }
-
     public virtual DbSet<Postulacion> Postulacion { get; set; }
 
     public virtual DbSet<Usuarios> Usuarios { get; set; }
@@ -28,7 +26,6 @@ public partial class FindYourClubContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new Configurations.ContratoConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.EquipoConfiguration());
-        modelBuilder.ApplyConfiguration(new Configurations.JugadorConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.PostulacionConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.UsuariosConfiguration());
 

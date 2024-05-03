@@ -9,41 +9,19 @@ namespace FindYourClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "1")]
+    [Authorize(Roles = "1")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _Service;
-        private readonly IFactoryMethJugadores _FactoryMethJugadores;
-        private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IAdminService Service, ILogger<AdminController> logger, IFactoryMethJugadores factoryMethJugadores)
+        public AdminController(IAdminService Service)
         {
             _Service = Service;
-            _logger = logger;
-            _FactoryMethJugadores = factoryMethJugadores;
         }
 
-        [HttpGet("GetUsuarios")]
-        public ActionResult<List<UsuarioDTO>> GetUsuarios()
-        {
-            try
-            {
-                var response = _Service.GetUsuarios();
-                if (response.Count == 0)
-                {
-                    NotFound("No hay usuarios");
-                }
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("GetAll", ex);
-                return BadRequest(ex.Message);
-            }
-        }
-
+        
         [HttpGet("GetJugadores")]
-        public ActionResult<List<JugadorDTO>> GetListaJugadores()
+        public ActionResult<List<UsuarioDTO>> GetListaJugadores()
         {
             try
             {
@@ -56,13 +34,12 @@ namespace FindYourClub.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAll", ex);
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("GetJugadoresById/{nombre}")]
-        public ActionResult<JugadorDTO> GetJugadorByNombre([FromRoute] string nombre)
+        public ActionResult<UsuarioDTO> GetJugadorByNombre([FromRoute] string nombre)
         {
             try
             {
@@ -76,7 +53,6 @@ namespace FindYourClub.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError("GetAll", ex);
                 return BadRequest(ex.Message);
             }
         }
@@ -91,39 +67,52 @@ namespace FindYourClub.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
                 return BadRequest($"{ex.Message}");
             }
         }
-
-
-
-        [HttpGet("GetListaEquipoxAdmin")]
-        public ActionResult<List<EquipoDTO>> GetListaEquipo()
+        [HttpPost("CreateEquipo")]
+        public ActionResult<string> CreateEquipo([FromBody] EquipoRegisterDTO equipo)
         {
             try
             {
-                var response = _FactoryMethJugadores.GetListaEquipo();
-                if (response.Count == 0)
+                var response = _Service.CreateEquipo(equipo);
+                if (response == "Equipo existente")
                 {
-                    NotFound("No existe ningun equipo");
+                    return BadRequest(response);
                 }
+                return Ok("Creado correctamente");
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
 
+        [HttpGet("GetEquipo")]
+        public ActionResult<EquipoDTO> GetEquipo()
+        {
+            try
+            {
+                var response = _Service.GetEquipo();
+                if (response == null)
+                {
+                    return NotFound("No hay equipos");
+                }
                 return Ok(response);
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("GetAll", ex);
-                return BadRequest($"{ex.Message}");
+                return BadRequest();
             }
         }
 
-        [HttpGet("GetEquipoById/{nombre}")]
-        public ActionResult<EquipoDTO> GetEquipoById([FromRoute] string nombre)
+       
+        [HttpGet("GetEquipoByName/{nombre}")]
+        public ActionResult<EquipoDTO> GetEquipoByName([FromRoute] string nombre)
         {
             try
             {
-                var response = _Service.GetEquipoById(nombre);
+                var response = _Service.GetEquipoByName(nombre);
                 if (response == null)
                 {
                     return NotFound($"No se encontro el equipo con el id {nombre}");
@@ -133,7 +122,6 @@ namespace FindYourClub.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAll", ex);
                 return BadRequest(ex.Message);
             }
         }
@@ -148,29 +136,10 @@ namespace FindYourClub.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
                 return BadRequest($"{ex.Message}");
             }
         }
-        [HttpPost("CrearContrato")]
-        public ActionResult<string> CrearContrato(ContratoDTO contrato)
-        {
-            string response = string.Empty;
-            try
-            {
-                response = _Service.CrearContrato(contrato);
-                if (response == "Falta id equipo o id jugador" || response == "Contrato existente")
-                    return BadRequest(response);
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Cree usuario", ex);
-                return BadRequest($"{ex.Message}");
-            }
-
-            return Ok(response);
-        }
+        
         [HttpGet("GetContratoListaxAdmin")]
         public ActionResult<List<ContratoDTO>> ContratoList()
         {
@@ -185,7 +154,23 @@ namespace FindYourClub.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAll", ex);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetContratoByName")]
+        public ActionResult<List<ContratoDTO>> GetContratoByName(string nombre)
+        {
+            try
+            {
+                var response = _Service.GetContratoByName(nombre);
+                if (response.Count == 0)
+                {
+                    NotFound("No hay contratos con este nombre");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -203,7 +188,23 @@ namespace FindYourClub.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAll", ex);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetPostulacionByName")]
+        public ActionResult<List<PostulacionDTO>> GetPostulacionByName(string nombre)
+        {
+            try
+            {
+                var response = _Service.GetPostulacionByName(nombre);
+                if (response.Count == 0)
+                {
+                    NotFound("No hay postulaciones con este nombre");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -218,7 +219,6 @@ namespace FindYourClub.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
                 return BadRequest($"{ex.Message}");
             }
         }
@@ -232,7 +232,6 @@ namespace FindYourClub.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
                 return BadRequest($"{ex.Message}");
             }
         }

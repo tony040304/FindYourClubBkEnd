@@ -13,11 +13,11 @@ public partial class Contrato
 
     public DateTime? FechaContrato { get; set; }
 
-    public int? UsuEquipoId { get; set; }
+    public int? ContEquipoid { get; set; }
 
-    public int? UsuJugadorId { get; set; }
+    public int? ContUserid { get; set; }
 
-    public virtual Usuarios UsuEquipo { get; set; }
+    public virtual Equipo ContEquipo { get; set; }
 
-    public virtual Usuarios UsuJugador { get; set; }
+    public virtual Usuarios ContUser { get; set; }
 }

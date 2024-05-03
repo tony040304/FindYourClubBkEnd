@@ -11,8 +11,6 @@ namespace FindYourClub
             builder.Services.AddScoped<IAdminService, AdminSerevice>();
             builder.Services.AddScoped<IJugadorServices, JugadorServices>();
             builder.Services.AddScoped<IEquipService, EquipoServices>();
-            builder.Services.AddScoped<IFactoryMethJugadores, FactoryJugadoresService>();
-            builder.Services.AddScoped<IFactory, MiFactory>();
         }
     }
 }
