@@ -107,13 +107,13 @@ namespace FindYourClub.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut("UpdateInfo")]
-        public ActionResult<string> UpdateInfo(EquipoViewModel equipo)
+        [HttpPatch("UpdateInfo")]
+        public ActionResult UpdateInfo(EquipoViewModel equipo)
         {
             
             try
             {
-                var equipoid = User.FindFirst("NameIdentifier")?.Value.ToString();
+                var equipoid = User.FindFirst("NameIdentifier")?.Value;
                 
                 
                 string response = _Equipo.UpdateInfo(equipo, equipoid);
@@ -173,6 +173,23 @@ namespace FindYourClub.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"{ex.Message}");
+            }
+        }
+        [HttpGet("MyTeam")]
+        public ActionResult<List<EquipoDTO>> MyData()
+        {
+            try 
+            {
+                var id = User.FindFirstValue("NameIdentifier")?.ToString();
+                var response = _Equipo.MyData(id);
+                if (response == null)
+                {
+                    return NotFound("Error al mostrar el equipo");
+                }
+                return Ok(response);
+            } catch
+            {
+                return BadRequest();
             }
         }
     }

@@ -114,21 +114,35 @@ namespace Service.Services
         }
         public string UpdateInfo(EquipoViewModel equipo, string id)
         {
-            Equipo? equipoId = _context.Equipo.Where(x=>x.EquipoId==int.Parse(id)).FirstOrDefault();
+            Equipo? equipoId = _context.Equipo.FirstOrDefault(x => x.EquipoId == int.Parse(id));
 
             if (equipoId == null)
             {
                 return "Credenciales incorrectas";
             }
 
-            equipoId.Liga = equipo.Liga;
-            equipoId.PosiciónRequerida = equipo.PosiciónRequerida;
-            equipoId.Descripcion = equipo.Descripcion;
+            if (equipo.Nombre != null && equipo.Nombre != equipoId.Nombre && equipo.Nombre != string.Empty)
+            {
+                equipoId.Nombre = equipo.Nombre;
+            }
+            if (equipo.Liga != null && equipo.Liga != equipoId.Liga && equipo.Liga != string.Empty)
+            {
+                equipoId.Liga = equipo.Liga;
+            }
+            if (equipo.PosiciónRequerida != null && equipo.PosiciónRequerida != equipoId.PosiciónRequerida && equipo.PosiciónRequerida != string.Empty)
+            {
+                equipoId.PosiciónRequerida = equipo.PosiciónRequerida;
+            }
+            if (equipo.Descripcion != null && equipo.Descripcion != equipoId.Descripcion && equipo.Descripcion != string.Empty)
+            {
+                equipoId.Descripcion = equipo.Descripcion;
+            }
 
             _context.SaveChanges();
 
             return "ok";
         }
+
         public string PasswordChange(ChangePasswordViewModel password, string id)
         {
             Equipo? equipoId = _context.Equipo.Where(x => x.EquipoId == int.Parse(id)).FirstOrDefault();
@@ -159,6 +173,10 @@ namespace Service.Services
             _context.SaveChanges();
         }
 
+        public List<EquipoDTO> MyData(string id)
+        {
+            return _mapper.Map<List<EquipoDTO>>(_context.Equipo.Where(x=>x.EquipoId == int.Parse(id)).ToList());
+        }
 
     }
 }

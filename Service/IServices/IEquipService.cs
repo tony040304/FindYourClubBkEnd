@@ -20,6 +20,6 @@ namespace Service.IServices
         string PasswordChange(ChangePasswordViewModel password, string id);
         void DeletePostulacion(int id);
         void DeleteContrato(int id);
-
+        List<EquipoDTO> MyData(string id);
     }
 }
