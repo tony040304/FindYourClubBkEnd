@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Model.DTOS;
 using Model.ViewModel;
 using Service.IServices;
+using Service.Services;
 using System.Security.Claims;
 
 namespace FindYourClub.Controllers
@@ -33,9 +34,12 @@ namespace FindYourClub.Controllers
 
                 // Crear el contrato en el servicio
                 response = _Equipo.CrearContrato(contrato, teamId, idUser);
+                _Equipo.DeletePostulacionAfterContract(idUser);
 
-                if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este equipo no existe")
-                    return BadRequest(response);
+                if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este jugador no existe")
+                {
+                    return BadRequest(response); 
+                }
 
                 return Ok("Creado correctamente");
 
@@ -52,17 +56,17 @@ namespace FindYourClub.Controllers
             try
             {
                 var id = User.FindFirst("NameIdentifier")?.Value;
-                
+
                 var response = _Equipo.ContratoList(id);
                 if (response == null)
                 {
-                    NotFound($"No hay Postulaciones con el equipo(id): {id}");
+                    return NotFound($"No hay Postulaciones con el equipo(id): {id}");
                 }
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Error al procesar la solicitud");
             }
         }
 

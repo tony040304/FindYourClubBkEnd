@@ -37,8 +37,8 @@ namespace Service.Services
             }
 
 
-            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido == User.NombreApellido.Trim().ToLower());
-            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre == User.NombreApellido.Trim().ToLower()); 
+            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido.Trim().ToLower() == User.NombreApellido.Trim().ToLower());
+            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre.Trim().ToLower() == User.NombreApellido.Trim().ToLower()); 
 
             if (user != null || equipo != null)
             {
@@ -49,7 +49,7 @@ namespace Service.Services
             {
                 NombreApellido = User.NombreApellido,
                 Contrasenia = User.Contrasenia,
-                Posicion = User.Posicion,
+                Posicion = User.Posicion.TrimEnd(),
                 Email = User.Email,
                 FechaNacimiento = User.FechaNacimiento
             });

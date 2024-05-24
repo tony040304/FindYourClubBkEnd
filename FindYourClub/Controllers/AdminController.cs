@@ -141,14 +141,14 @@ namespace FindYourClub.Controllers
         }
         
         [HttpGet("GetContratoListaxAdmin")]
-        public ActionResult<List<ContratoDTO>> ContratoList()
+        public ActionResult<List<ContratoEquipoUserDTO>> ContratoList()
         {
             try
             {
                 var response = _Service.ContratoList();
-                if (response.Count == 0)
+                if (response == null)
                 {
-                    NotFound("No hay usuarios");
+                    NotFound("No hay contratos");
                 }
                 return Ok(response);
             }
@@ -158,7 +158,7 @@ namespace FindYourClub.Controllers
             }
         }
         [HttpGet("GetContratoByName")]
-        public ActionResult<List<ContratoDTO>> GetContratoByName(string nombre)
+        public ActionResult<List<ContratoEquipoUserDTO>> GetContratoByName(string nombre)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace FindYourClub.Controllers
             }
         }
         [HttpGet("GetPostulacionListaxAdmin")]
-        public ActionResult<List<PostulacionDTO>> GetListaPostulacion()
+        public ActionResult<List<PostulacionUserTeamDTO>> GetListaPostulacion()
         {
             try
             {
@@ -192,7 +192,7 @@ namespace FindYourClub.Controllers
             }
         }
         [HttpGet("GetPostulacionByName")]
-        public ActionResult<List<PostulacionDTO>> GetPostulacionByName(string nombre)
+        public ActionResult<List<PostulacionUserTeamDTO>> GetPostulacionByName(string nombre)
         {
             try
             {

@@ -16,10 +16,10 @@ namespace Service.IServices
         List<EquipoDTO> GetEquipo();
         EquipoDTO GetEquipoByName(string nombre);
         void DeleteEquipo(int  id);
-        List<ContratoDTO> ContratoList();
-        List<ContratoDTO> GetContratoByName(string nombre);              
-        List<PostulacionDTO> GetListaPostulacion();
-        List<PostulacionDTO> GetPostulacionByName(string nombre);
+        List<ContratoEquipoUserDTO> ContratoList();
+        List<ContratoEquipoUserDTO> GetContratoByName(string nombre);              
+        List<PostulacionUserTeamDTO> GetListaPostulacion();
+        List<PostulacionUserTeamDTO> GetPostulacionByName(string nombre);
         void DeletePostulacion(int id);
         void DeleteContrato(int id);
     }

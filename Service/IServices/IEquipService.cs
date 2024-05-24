@@ -13,6 +13,7 @@ namespace Service.IServices
     public interface IEquipService
     {
         string CrearContrato(ContratoViewModel contrato, string teamId, int idUser);
+        void DeletePostulacionAfterContract(int idUser);
         List<ContratoEquipoDTO> ContratoList(string id);
         List<UserPostulacionDTO> GetPostulacionbyTeam(int UsuEquipoId);
         List<JugadoresEquipoDTO> GetPlantel(string id);

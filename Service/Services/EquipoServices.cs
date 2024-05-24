@@ -30,7 +30,7 @@ namespace Service.Services
         public string CrearContrato(ContratoViewModel contrato, string teamId, int idUser)
         {
             int id = int.Parse(teamId);
-            var User = _context.Usuarios.FirstOrDefault(e => e.UsuarioId == idUser);
+            Usuarios? User = _context.Usuarios.FirstOrDefault(e => e.UsuarioId == idUser);
             if (User == null)
             {
                 return "Este jugador no existe";
@@ -53,12 +53,20 @@ namespace Service.Services
             });
             _context.SaveChanges();
 
-            _context.Postulacion.Remove(_context.Postulacion.Single(f => f.PostuJugadorId == idUser));
-            _context.SaveChanges();
 
-            string lastContrato = _context.Contrato.OrderBy(x => x.Id).Last().ToString();
+            string lastContrato = _context.Contrato.OrderByDescending(x => x.Id).FirstOrDefault().ToString();
 
             return lastContrato;
+        }
+
+        public void DeletePostulacionAfterContract(int idUser)
+        {
+            var postulacion = _context.Postulacion.FirstOrDefault(f => f.PostuJugadorId == idUser);
+            if (postulacion != null)
+            {
+                _context.Postulacion.Remove(postulacion);
+                _context.SaveChanges();
+            }
         }
 
         public List<ContratoEquipoDTO> ContratoList(string id)

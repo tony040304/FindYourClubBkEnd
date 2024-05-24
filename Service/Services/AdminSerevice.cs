@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Providers.Entities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Service.Services
 {
@@ -26,7 +27,7 @@ namespace Service.Services
 
         public List<UsuarioDTO> GetListaJugadores()
         {
-            return _context.Usuarios.ToList().Select(s => new UsuarioDTO() { UsuarioId = s.UsuarioId, NombreApellido = s.NombreApellido, Posicion = s.Posicion, Email = s.Email }).ToList();
+            return _context.Usuarios.Where(x=>x.Rol == 2).ToList().Select(s => new UsuarioDTO() { UsuarioId = s.UsuarioId, NombreApellido = s.NombreApellido, FechaNacimiento = s.FechaNacimiento, Contrasenia = s.Contrasenia,Posicion = s.Posicion, Email = s.Email }).ToList();
         }
 
         public UsuarioDTO GetJugadorByNombre(string nombre)
@@ -78,44 +79,75 @@ namespace Service.Services
             _context.SaveChanges();
         }
 
-        public List<ContratoDTO> ContratoList()
+        public List<ContratoEquipoUserDTO> ContratoList()
         {
-            return _context.Contrato.ToList().Select(s => new ContratoDTO() { ContEquipoid = s.ContEquipoid, ContUserid = s.ContUserid, FechaContrato = s.FechaContrato, SalarioJugador = s.SalarioJugador, Id = s.Id }).ToList();
+            var query = from e in _context.Equipo
+                        join c in _context.Contrato on e.EquipoId equals c.ContEquipoid
+                        join u in _context.Usuarios on c.ContUserid equals u.UsuarioId
+                        select new ContratoEquipoUserDTO
+                        {
+                            id = c.Id,
+                            NombreEquipo = e.Nombre,
+                            NombreApellido = u.NombreApellido,
+                            Posicion = u.Posicion,
+                            Liga = e.Liga,
+                            FechaContrato = c.FechaContrato,
+                            SalarioJugador = c.SalarioJugador
+                        };
+            return query.ToList();
         }
-        public List<ContratoDTO> GetContratoByName(string nombre)
+        public List<ContratoEquipoUserDTO> GetContratoByName(string nombre)
         {
             var resultado = from c in _context.Contrato
                             join e in _context.Equipo on c.ContEquipoid equals e.EquipoId
                             join u in _context.Usuarios on c.ContUserid equals u.UsuarioId
                             where e.Nombre == nombre || u.NombreApellido == nombre
-                            select new ContratoDTO{
-                                Id = c.Id,
+                            select new ContratoEquipoUserDTO
+                            {
+                                id = c.Id,
+                                NombreEquipo = e.Nombre,
+                                NombreApellido = u.NombreApellido,
+                                Posicion = u.Posicion,
+                                Liga = e.Liga,
                                 FechaContrato = c.FechaContrato,
-                                SalarioJugador = c.SalarioJugador,
-                                ContEquipoid = c.ContEquipoid,
-                                ContUserid= c.ContUserid,
+                                SalarioJugador = c.SalarioJugador
                             };
 
             return resultado.ToList();
         }
-        public List<PostulacionDTO> GetListaPostulacion()
+        public List<PostulacionUserTeamDTO> GetListaPostulacion()
         {
-            return _context.Postulacion.ToList().Select(s => new PostulacionDTO() { PostuEquipoId = s.PostuEquipoId, PostuJugadorId = s.PostuJugadorId, FechaPostulacion = s.FechaPostulacion, Idpostulacion = s.Idpostulacion }).ToList();
+            var resultado = from e in _context.Equipo
+                            join p in _context.Postulacion on e.EquipoId equals p.PostuEquipoId
+                            join u in _context.Usuarios on p.PostuJugadorId equals u.UsuarioId
+                            select new PostulacionUserTeamDTO
+                            {
+                                Id = p.Idpostulacion,
+                                Nombre = e.Nombre,
+                                NombreApellido = u.NombreApellido,
+                                PosisionJugador = u.Posicion,
+                                Liga = e.Liga,
+                                FechaPostulaciones = p.FechaPostulacion,
+                            };
+
+            return resultado.ToList();
         }
-        public List<PostulacionDTO> GetPostulacionByName(string nombre)
+        public List<PostulacionUserTeamDTO> GetPostulacionByName(string nombre)
         {
-            var contrato = from c in _context.Postulacion
+            var contrato = from p in _context.Postulacion
                            join e in _context.Equipo
-                           on c.PostuEquipoId equals e.EquipoId
+                           on p.PostuEquipoId equals e.EquipoId
                            join u in _context.Usuarios
-                           on c.PostuJugadorId equals u.UsuarioId
+                           on p.PostuJugadorId equals u.UsuarioId
                            where e.Nombre == nombre || u.NombreApellido == nombre
-                           select new PostulacionDTO
+                           select new PostulacionUserTeamDTO
                            {
-                               Idpostulacion = c.Idpostulacion,
-                               FechaPostulacion = c.FechaPostulacion,
-                               PostuEquipoId = c.PostuEquipoId,
-                               PostuJugadorId = c.PostuJugadorId
+                               Id = p.Idpostulacion,
+                               Nombre = e.Nombre,
+                               NombreApellido = u.NombreApellido,
+                               PosisionJugador = u.Posicion,
+                               Liga = e.Liga,
+                               FechaPostulaciones = p.FechaPostulacion,
                            };
             return contrato.ToList();
         }
