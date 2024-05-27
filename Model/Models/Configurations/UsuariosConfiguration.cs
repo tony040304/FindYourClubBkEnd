@@ -21,8 +21,8 @@ namespace Model.Models.Configurations
             .HasMaxLength(100)
             .HasColumnName("Nombre_Apellido");
             entity.Property(e => e.Posicion)
-            .HasMaxLength(10)
-            .IsFixedLength();
+            .HasMaxLength(50)
+            .IsUnicode(false);
             entity.Property(e => e.Rol).HasDefaultValueSql("((2))");
 
             OnConfigurePartial(entity);

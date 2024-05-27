@@ -17,5 +17,6 @@ namespace Model.DTOS
         public int? ContEquipoid { get; set; }
 
         public int? ContUserid { get; set; }
+        public string CategoriaEquipo { get; set; }
     }
 }

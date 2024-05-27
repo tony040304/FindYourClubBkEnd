@@ -16,6 +16,9 @@ namespace Model.Models.Configurations
             entity.ToTable("contrato");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CategoriaEquipo)
+            .HasMaxLength(50)
+            .IsUnicode(false);
             entity.Property(e => e.ContEquipoid).HasColumnName("Cont_Equipoid");
             entity.Property(e => e.ContUserid).HasColumnName("Cont_Userid");
             entity.Property(e => e.FechaContrato)

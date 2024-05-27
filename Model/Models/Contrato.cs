@@ -17,6 +17,8 @@ public partial class Contrato
 
     public int? ContUserid { get; set; }
 
+    public string CategoriaEquipo { get; set; }
+
     public virtual Equipo ContEquipo { get; set; }
 
     public virtual Usuarios ContUser { get; set; }

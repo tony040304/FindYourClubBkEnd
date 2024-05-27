@@ -17,5 +17,6 @@ namespace Model.DTOS
         public string NombreApellido { get; set; }
 
         public string Posicion { get; set; }
+        public string CategoriaEquipo { get; set; }
     }
 }

@@ -18,5 +18,6 @@ namespace Model.DTOS
         public string Posicion { get; set; }
         public string NombreEquipo { get; set; }
         public string Liga { get; set; }
+        public string CategoriaEquipo { get; set; }
     }
 }

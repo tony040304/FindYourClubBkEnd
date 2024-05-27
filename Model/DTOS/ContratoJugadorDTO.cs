@@ -13,5 +13,6 @@ namespace Model.DTOS
         public string Liga { get; set; }
         public decimal? SalarioJugador { get; set; }
         public DateTime? FechaContrato { get; set; }
+        public string CategoriaEquipo { get; set; }
     }
 }

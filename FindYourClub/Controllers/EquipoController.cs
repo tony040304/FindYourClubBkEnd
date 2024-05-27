@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Model.DTOS;
+using Model.Models;
 using Model.ViewModel;
 using Service.IServices;
 using Service.Services;
+using Service.Services.FactoryMehod;
 using System.Security.Claims;
 
 namespace FindYourClub.Controllers
@@ -16,29 +18,57 @@ namespace FindYourClub.Controllers
     public class EquipoController : ControllerBase
     {
         private readonly IEquipService _Equipo;
+        private readonly FindYourClubContext _context;
 
-
-        public EquipoController(IEquipService Equipo)
+        public EquipoController(IEquipService Equipo, FindYourClubContext context)
         {
             _Equipo = Equipo;
+            _context = context;
         }
 
-        [HttpPost("CrearContrato")]
-        public ActionResult<string> CrearContrato([FromBody] ContratoViewModel contrato, int idUser)
+        [HttpPost("CrearContratoPrimera")]
+        public IActionResult ContratoPrimera([FromBody] ContratoViewModel contrato, int idUser)
         {
             string response = string.Empty;
             try
             {
                 
                 var teamId = User.FindFirst("NameIdentifier")?.Value;
-
+                var contratoPrimera = new ContratoPrimera(_context);
                 // Crear el contrato en el servicio
-                response = _Equipo.CrearContrato(contrato, teamId, idUser);
+                response = contratoPrimera.TipoContrato(contrato, teamId, idUser);
                 _Equipo.DeletePostulacionAfterContract(idUser);
 
                 if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este jugador no existe")
                 {
                     return BadRequest(response); 
+                }
+
+                return Ok("Creado correctamente");
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+
+        }
+        [HttpPost("CrearContratoReserva")]
+        public IActionResult ContratoReserva([FromBody] ContratoViewModel contrato, int idUser)
+        {
+            string response = string.Empty;
+            try
+            {
+
+                var teamId = User.FindFirst("NameIdentifier")?.Value;
+                var contratoReserva = new ContratoReserva(_context);
+                // Crear el contrato en el servicio
+                response = contratoReserva.TipoContrato(contrato, teamId, idUser);
+                _Equipo.DeletePostulacionAfterContract(idUser);
+
+                if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este jugador no existe")
+                {
+                    return BadRequest(response);
                 }
 
                 return Ok("Creado correctamente");
