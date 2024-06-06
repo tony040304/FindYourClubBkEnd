@@ -11,7 +11,7 @@ namespace Model.DTOS
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Liga { get; set; }
-        public string Posicion { get; set; }
+        public string PosiciónRequerida { get; set; }
         public DateTime FechaPostulaciones { get; set; }
     }
 }

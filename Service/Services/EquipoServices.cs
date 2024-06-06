@@ -81,7 +81,8 @@ namespace Service.Services
                             SalarioJugador = contrato.SalarioJugador,
                             FechaContrato = contrato.FechaContrato,
                             NombreApellido = usuario.NombreApellido,
-                            Posicion = usuario.Posicion
+                            Posicion = usuario.Posicion,
+                            CategoriaEquipo = contrato.CategoriaEquipo
                         };
 
             var resultados = query.ToList();
@@ -98,7 +99,8 @@ namespace Service.Services
                             NombreApellido = usuarios.NombreApellido,
                             PosisionJugador = usuarios.Posicion,
                             idPostulacion = postulacion.Idpostulacion,
-                            FechaPostulaciones = postulacion.FechaPostulacion
+                            FechaPostulaciones = postulacion.FechaPostulacion,
+                            Mail = usuarios.Email
                         };
 
             return query.ToList();
@@ -108,7 +110,24 @@ namespace Service.Services
             var resultado = from c in _context.Contrato
                             join e in _context.Equipo on c.ContEquipoid equals e.EquipoId
                             join u in _context.Usuarios on c.ContUserid equals u.UsuarioId
-                            where e.EquipoId == int.Parse(id)
+                            where e.EquipoId == int.Parse(id) && c.CategoriaEquipo == "Primera divicion"
+                            select new JugadoresEquipoDTO
+                            {
+                                NombreJugador = u.NombreApellido,
+                                Posicion = u.Posicion,
+                                edad = DateTime.Today.Year - ((DateTime)u.FechaNacimiento).Year -
+                               (DateTime.Today.Month < ((DateTime)u.FechaNacimiento).Month ||
+                               (DateTime.Today.Month == ((DateTime)u.FechaNacimiento).Month &&
+                               DateTime.Today.Day < ((DateTime)u.FechaNacimiento).Day) ? 1 : 0)
+                            };
+            return resultado.ToList();
+        }
+        public List<JugadoresEquipoDTO> GetPlantelReserva(string id)
+        {
+            var resultado = from c in _context.Contrato
+                            join e in _context.Equipo on c.ContEquipoid equals e.EquipoId
+                            join u in _context.Usuarios on c.ContUserid equals u.UsuarioId
+                            where e.EquipoId == int.Parse(id) && c.CategoriaEquipo == "Equipo reserva"
                             select new JugadoresEquipoDTO
                             {
                                 NombreJugador = u.NombreApellido,

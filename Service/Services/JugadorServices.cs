@@ -110,7 +110,7 @@ namespace Service.Services
                            {
                                Id = p.Idpostulacion,
                                Nombre = e.Nombre,
-                               Posicion = e.PosiciónRequerida,
+                               PosiciónRequerida = e.PosiciónRequerida,
                                Liga = e.Liga,
                                FechaPostulaciones = (DateTime)p.FechaPostulacion
                            };

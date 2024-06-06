@@ -13,5 +13,6 @@ namespace Model.DTOS
         public string PosisionJugador { get; set; } = string.Empty;
         public DateTime? FechaPostulaciones { get; set; }
         public int idPostulacion { get; set; }
+        public string Mail { get; set; }
     }
 }

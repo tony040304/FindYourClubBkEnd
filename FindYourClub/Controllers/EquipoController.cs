@@ -141,6 +141,26 @@ namespace FindYourClub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetPlantelReserva")]
+        public ActionResult<List<JugadoresEquipoDTO>> GetPlantelReserva()
+        {
+            try
+            {
+                var id = User.FindFirst("NameIdentifier")?.Value;
+
+
+                var response = _Equipo.GetPlantelReserva(id);
+                if (response == null)
+                {
+                    NotFound("No hay jugadores");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPatch("UpdateInfo")]
         public ActionResult UpdateInfo(EquipoViewModel equipo)
         {
