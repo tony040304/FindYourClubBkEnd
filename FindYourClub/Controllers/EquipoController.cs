@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +9,7 @@ using Model.ViewModel;
 using Service.IServices;
 using Service.Services;
 using Service.Services.FactoryMehod;
+using System.Diagnostics.Contracts;
 using System.Security.Claims;
 
 namespace FindYourClub.Controllers
@@ -128,8 +130,9 @@ namespace FindYourClub.Controllers
             {
                 var id = User.FindFirst("NameIdentifier")?.Value;
 
-
-                var response = _Equipo.GetPlantel(id);
+                var contratoPrimera = new ContratoPrimera(_context);
+                // Crear el contrato en el servicio
+                var response = contratoPrimera.GetPlantel(id);
                 if (response == null)
                 {
                     NotFound("No hay jugadores");
@@ -148,8 +151,8 @@ namespace FindYourClub.Controllers
             {
                 var id = User.FindFirst("NameIdentifier")?.Value;
 
-
-                var response = _Equipo.GetPlantelReserva(id);
+                var contratoReserva = new ContratoReserva(_context);
+                var response = contratoReserva.GetPlantel(id);
                 if (response == null)
                 {
                     NotFound("No hay jugadores");

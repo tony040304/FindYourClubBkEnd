@@ -21,5 +21,16 @@ namespace Service.Services.FactoryMehod
                 return new ContratoReserva(context);
             }
         }
+        public static IContratoFactory TraerContrato(bool esPrimeraDivision, FindYourClubContext context)
+        {
+            if (esPrimeraDivision)
+            {
+                return new ContratoPrimera(context);
+            }
+            else
+            {
+                return new ContratoReserva(context);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Model.Models;
+﻿using Model.DTOS;
+using Model.Models;
 using Model.ViewModel;
 using Service.IServices.FactoryMethod;
 using System;
@@ -18,5 +19,6 @@ namespace Service.Services.FactoryMehod
             _context = context;
         }
         public abstract string TipoContrato(ContratoViewModel contrato, string teamId, int idUser);
+        public abstract List<JugadoresEquipoDTO> GetPlantel(string id);
     }
 }

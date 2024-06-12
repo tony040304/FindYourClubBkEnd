@@ -1,4 +1,5 @@
-﻿using Model.Models;
+﻿using Model.DTOS;
+using Model.Models;
 using Model.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -45,5 +46,23 @@ namespace Service.Services.FactoryMehod
 
             return lastContrato;
         }
+        public override List<JugadoresEquipoDTO> GetPlantel(string id)
+        {
+            var resultado = from c in _context.Contrato
+                            join e in _context.Equipo on c.ContEquipoid equals e.EquipoId
+                            join u in _context.Usuarios on c.ContUserid equals u.UsuarioId
+                            where e.EquipoId == int.Parse(id) && c.CategoriaEquipo == "Primera divicion"
+                            select new JugadoresEquipoDTO
+                            {
+                                NombreJugador = u.NombreApellido,
+                                Posicion = u.Posicion,
+                                edad = DateTime.Today.Year - ((DateTime)u.FechaNacimiento).Year -
+                               (DateTime.Today.Month < ((DateTime)u.FechaNacimiento).Month ||
+                               (DateTime.Today.Month == ((DateTime)u.FechaNacimiento).Month &&
+                               DateTime.Today.Day < ((DateTime)u.FechaNacimiento).Day) ? 1 : 0)
+                            };
+            return resultado.ToList();
+        }
+
     }
 }
