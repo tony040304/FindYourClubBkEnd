@@ -36,19 +36,20 @@ namespace Service.Services
                 return "Ingrese un usuario";
             }
 
-
             Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido.Trim().ToLower() == User.NombreApellido.Trim().ToLower());
-            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre.Trim().ToLower() == User.NombreApellido.Trim().ToLower()); 
+            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre.Trim().ToLower() == User.NombreApellido.Trim().ToLower());
 
             if (user != null || equipo != null)
             {
                 return "Usuario existente";
             }
 
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(User.Contrasenia);
+
             _context.Usuarios.Add(new Usuarios()
             {
                 NombreApellido = User.NombreApellido,
-                Contrasenia = User.Contrasenia,
+                Contrasenia = hashedPassword,  // Almacena la contraseña encriptada
                 Posicion = User.Posicion.TrimEnd(),
                 Email = User.Email,
                 FechaNacimiento = User.FechaNacimiento
@@ -62,21 +63,23 @@ namespace Service.Services
 
         public string Login(AuthViewModel User)
         {
-            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido == User.Nombre && x.Contrasenia == User.Password);
+            Usuarios? user = _context.Usuarios.FirstOrDefault(x => x.NombreApellido == User.Nombre);
 
-            if (user != null)
+            if (user != null && BCrypt.Net.BCrypt.Verify(User.Password, user.Contrasenia))
             {
                 return GetToken(user);
             }
 
-            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre == User.Nombre && x.Password == User.Password);
+            Equipo? equipo = _context.Equipo.FirstOrDefault(x => x.Nombre == User.Nombre);
 
-            if (equipo != null)
+            if (equipo != null && BCrypt.Net.BCrypt.Verify(User.Password, equipo.Password))
             {
                 return GetToken(equipo);
             }
+
             return string.Empty;
         }
+
 
         private string GetToken(Usuarios user)
         {
