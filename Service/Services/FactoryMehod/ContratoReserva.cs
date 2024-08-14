@@ -30,13 +30,20 @@ namespace Service.Services.FactoryMehod
                 return "El equipo ya tiene un contrato con esta persona";
             }
 
+            var jugadorContratado = _context.Contrato.FirstOrDefault(c => c.ContUserid == UsuarioId);
+            if (jugadorContratado != null)
+            {
+                return "Este jugador ya tiene un contrato con otro equipo.";
+            }
 
+
+            string categoria = "Equipo reserva";
             _context.Contrato.Add(new Contrato()
             {
                 ContEquipoid = id,
                 ContUserid = UsuarioId,
                 SalarioJugador = contrato.SalarioJugador,
-                CategoriaEquipo = "Equipo reserva",
+                CategoriaEquipo = categoria,
                 FechaContrato = DateTime.Now
             });
             _context.SaveChanges();

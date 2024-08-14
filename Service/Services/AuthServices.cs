@@ -49,7 +49,7 @@ namespace Service.Services
             _context.Usuarios.Add(new Usuarios()
             {
                 NombreApellido = User.NombreApellido,
-                Contrasenia = hashedPassword,  // Almacena la contraseña encriptada
+                Contrasenia = hashedPassword,  
                 Posicion = User.Posicion.TrimEnd(),
                 Email = User.Email,
                 FechaNacimiento = User.FechaNacimiento

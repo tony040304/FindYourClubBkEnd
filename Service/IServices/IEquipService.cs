@@ -12,12 +12,9 @@ namespace Service.IServices
 {
     public interface IEquipService
     {
-        string CrearContrato(ContratoViewModel contrato, string teamId, int idUser);
         void DeletePostulacionAfterContract(int idUser);
         List<ContratoEquipoDTO> ContratoList(string id);
         List<UserPostulacionDTO> GetPostulacionbyTeam(int UsuEquipoId);
-        List<JugadoresEquipoDTO> GetPlantel(string id);
-        List<JugadoresEquipoDTO> GetPlantelReserva(string id);
         string UpdateInfo(EquipoViewModel equipo, string id);
         string PasswordChange(ChangePasswordViewModel password, string id);
         void DeletePostulacion(int id);

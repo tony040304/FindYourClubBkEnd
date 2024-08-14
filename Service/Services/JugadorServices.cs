@@ -12,6 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Providers.Entities;
 
 namespace Service.Services
 {
@@ -129,8 +130,8 @@ namespace Service.Services
             {
                 return "Contraseñas diferentes";
             }
-
-            usuarios.Contrasenia = password.Password;
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password.Password);
+            usuarios.Contrasenia = hashedPassword;
             _context.SaveChanges();
             return "ok";
         }

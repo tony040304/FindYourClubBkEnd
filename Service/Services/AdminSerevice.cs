@@ -49,13 +49,14 @@ namespace Service.Services
             {
                 return "Equipo existente";
             }
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(equipo.Password);
             _context.Equipo.Add(new Equipo()
             {
                 Nombre = equipo.Nombre,
                 Descripcion = equipo.Descripcion,
                 Liga = equipo.Liga,
                 PosiciónRequerida = equipo.PosiciónRequerida,
-                Password = equipo.Password
+                Password = hashedPassword
             });
             _context.SaveChanges();
 

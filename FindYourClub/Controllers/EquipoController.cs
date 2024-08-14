@@ -37,17 +37,17 @@ namespace FindYourClub.Controllers
                 
                 var teamId = User.FindFirst("NameIdentifier")?.Value;
                 var contratoPrimera = new ContratoPrimera(_context);
-                // Crear el contrato en el servicio
                 response = contratoPrimera.TipoContrato(contrato, teamId, idUser);
-                _Equipo.DeletePostulacionAfterContract(idUser);
 
-                if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este jugador no existe")
+                if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este jugador no existe" || response == "Este jugador ya tiene un contrato con otro equipo.")
                 {
-                    return BadRequest(response); 
+                    return BadRequest(response);
                 }
-
-                return Ok("Creado correctamente");
-
+                else
+                {
+                    _Equipo.DeletePostulacionAfterContract(idUser);
+                    return Ok("Creado correctamente");
+                }
             }
             catch (Exception ex)
             {
@@ -64,17 +64,18 @@ namespace FindYourClub.Controllers
 
                 var teamId = User.FindFirst("NameIdentifier")?.Value;
                 var contratoReserva = new ContratoReserva(_context);
-                // Crear el contrato en el servicio
                 response = contratoReserva.TipoContrato(contrato, teamId, idUser);
-                _Equipo.DeletePostulacionAfterContract(idUser);
 
-                if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este jugador no existe")
+
+                if (response == "El equipo ya tiene un contrato con esta persona" || response == "Este jugador no existe" || response == "Este jugador ya tiene un contrato con otro equipo.")
                 {
                     return BadRequest(response);
                 }
-
-                return Ok("Creado correctamente");
-
+                else
+                {
+                    _Equipo.DeletePostulacionAfterContract(idUser);
+                    return Ok("Creado correctamente");
+                }
             }
             catch (Exception ex)
             {

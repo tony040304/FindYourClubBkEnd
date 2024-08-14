@@ -24,8 +24,14 @@ namespace Service.Services.FactoryMehod
             }
             int UsuarioId = User.UsuarioId;
 
-            var contratoExistente = _context.Contrato.FirstOrDefault(c => c.ContEquipoid == id && c.ContUserid == UsuarioId);
+            var contratoExistente = _context.Contrato.FirstOrDefault(c => c.ContUserid == UsuarioId && c.ContEquipoid != id);
             if (contratoExistente != null)
+            {
+                return "Este jugador ya tiene un contrato con otro equipo.";
+            }
+
+            var contratoConMismoEquipo = _context.Contrato.FirstOrDefault(c => c.ContEquipoid == id && c.ContUserid == UsuarioId);
+            if (contratoConMismoEquipo != null)
             {
                 return "El equipo ya tiene un contrato con esta persona";
             }
